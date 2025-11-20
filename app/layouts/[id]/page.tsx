@@ -9,11 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Layout, LayoutPreview, Keyboard as KeyboardType, MetricWithRelations } from '@/api';
+import { LayoutNumericMetrics } from '@/components/layout-numeric-metrics';
 import { layoutService } from '@/lib/layout-service';
 import { keyboardService } from '@/lib/keyboard-service';
 import { metricService } from '@/lib/metric-service';
-import { MetricDetails } from '@/components/metric-details';
-import { MetricsCharts } from '@/components/metric-charts';
+import { corpusService } from '@/lib/corpus-service';
+import { LayoutMetricsSelector } from '@/components/layout-metrics-selector';
+import { LayoutMetricsCharts } from '@/components/layout-metrics-charts';
 import Image from 'next/image';
 
 export default function LayoutDetailPage() {
@@ -25,53 +27,40 @@ export default function LayoutDetailPage() {
   const [keyboards, setKeyboards] = useState<KeyboardType[]>([]);
   const [corpora, setCorpora] = useState<any[]>([]);
   const [metrics, setMetrics] = useState<MetricWithRelations[]>([]);
-  
   const [selectedKeyboard, setSelectedKeyboard] = useState<string>('');
   const [selectedCorpus, setSelectedCorpus] = useState<string>('');
-  const [selectedMetric, setSelectedMetric] = useState<MetricWithRelations | null>(null);
-  
+  const [currentMetric, setCurrentMetric] = useState<MetricWithRelations | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Загрузка данных
+  // Загрузка данных раскладки
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const [layoutData, previewsData, keyboardsData, metricsData] = await Promise.all([
+        const [layoutData, previewsData, keyboardsData, corporaData, metricsData] = await Promise.all([
           layoutService.getLayout(parseInt(layoutId)),
           layoutService.getLayoutPreviews(),
           keyboardService.getKeyboards(),
+          corpusService.getCorpora(),
           metricService.getMetrics()
         ]);
 
         setLayout(layoutData);
         setPreviews(previewsData);
         setKeyboards(keyboardsData);
-        setMetrics(metricsData.filter(metric => metric.layout === parseInt(layoutId)));
+        setCorpora(corporaData);
+        setMetrics(metricsData);
 
-        // Уникальные корпуса из метрик
-        const uniqueCorpora = Array.from(new Set(
-          metricsData
-            .filter(metric => metric.layout === parseInt(layoutId))
-            .map(metric => metric.corpus)
-        )).map(corpusId => ({
-          id: corpusId,
-          name: metricsData.find(m => m.corpus === corpusId)?.corpus_name || `Корпус ${corpusId}`
-        }));
-
-        setCorpora(uniqueCorpora);
-
-        // Выбираем первые значения по умолчанию
+        // Выбираем первую клавиатуру и корпус по умолчанию
         if (keyboardsData.length > 0) {
           setSelectedKeyboard(keyboardsData[0].id.toString());
         }
-        if (uniqueCorpora.length > 0) {
-          setSelectedCorpus(uniqueCorpora[0].id.toString());
+        if (corporaData.length > 0) {
+          setSelectedCorpus(corporaData[0].id.toString());
         }
-
       } catch (err) {
         setError('Ошибка при загрузке данных раскладки');
         console.error('Error loading layout:', err);
@@ -85,16 +74,17 @@ export default function LayoutDetailPage() {
     }
   }, [layoutId]);
 
-  // Обновление выбранной метрики при изменении фильтров
+  // Поиск метрики при изменении выбора
   useEffect(() => {
-    if (selectedKeyboard && selectedCorpus) {
-      const metric = metrics.find(
-        m => m.keyboard.toString() === selectedKeyboard && 
-             m.corpus.toString() === selectedCorpus
+    if (selectedKeyboard && selectedCorpus && metrics.length > 0) {
+      const metric = metrics.find(m => 
+        m.layout === parseInt(layoutId) &&
+        m.keyboard === parseInt(selectedKeyboard) &&
+        m.corpus === parseInt(selectedCorpus)
       );
-      setSelectedMetric(metric || null);
+      setCurrentMetric(metric || null);
     }
-  }, [selectedKeyboard, selectedCorpus, metrics]);
+  }, [selectedKeyboard, selectedCorpus, metrics, layoutId]);
 
   // Получаем превью для выбранной клавиатуры
   const selectedPreview = previews.find(
@@ -141,7 +131,7 @@ export default function LayoutDetailPage() {
         </div>
 
         {/* Основной контент */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Левая колонка - превью и информация */}
           <div className="lg:col-span-2 space-y-6">
             {/* Превью раскладки */}
@@ -149,7 +139,7 @@ export default function LayoutDetailPage() {
               <CardHeader>
                 <CardTitle>Превью раскладки</CardTitle>
                 <CardDescription>
-                  {selectedKeyboard ? `На клавиатуре: ${keyboards.find(k => k.id.toString() === selectedKeyboard)?.name}` : 'Выберите клавиатуру'}
+                  {selectedKeyboard ? `На клавиатуре: ${keyboards.find(k => k.id === parseInt(selectedKeyboard))?.name}` : 'Выберите клавиатуру'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -187,7 +177,7 @@ export default function LayoutDetailPage() {
 
           {/* Правая колонка - управление и информация */}
           <div className="space-y-6">
-            {/* Выбор клавиатуры */}
+            {/* Выбор клавиатуры для превью */}
             <Card>
               <CardHeader>
                 <CardTitle>Форм-фактор</CardTitle>
@@ -251,67 +241,27 @@ export default function LayoutDetailPage() {
           </div>
 
           {/* Выбор параметров для метрик */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Параметры метрик</CardTitle>
-              <CardDescription>
-                Выберите корпус и клавиатуру для отображения метрик
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="corpus-select">Корпус</Label>
-                  <Select value={selectedCorpus} onValueChange={setSelectedCorpus}>
-                    <SelectTrigger id="corpus-select">
-                      <SelectValue placeholder="Выберите корпус" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {corpora.map((corpus) => (
-                        <SelectItem key={corpus.id} value={corpus.id.toString()}>
-                          {corpus.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+          <LayoutMetricsSelector
+            corpora={corpora}
+            keyboards={keyboards}
+            selectedCorpus={selectedCorpus}
+            selectedKeyboard={selectedKeyboard}
+            onCorpusChange={setSelectedCorpus}
+            onKeyboardChange={setSelectedKeyboard}
+          />
 
-                <div className="space-y-2">
-                  <Label htmlFor="metric-keyboard-select">Клавиатура</Label>
-                  <Select value={selectedKeyboard} onValueChange={setSelectedKeyboard}>
-                    <SelectTrigger id="metric-keyboard-select">
-                      <SelectValue placeholder="Выберите клавиатуру" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {keyboards.map((keyboard) => (
-                        <SelectItem key={keyboard.id} value={keyboard.id.toString()}>
-                          {keyboard.name} ({keyboard.form_factor})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Отображение метрик */}
-          {selectedMetric ? (
-            <div className="space-y-6">
-              {/* Детали метрик */}
-              <MetricDetails metric={selectedMetric} />
-              
-              {/* Графики */}
-              <MetricsCharts metric={selectedMetric} />
-            </div>
+          {/* Графики метрик */}
+          {currentMetric ? (
+            <>
+            <LayoutMetricsCharts metric={currentMetric} />
+            <LayoutNumericMetrics metric={currentMetric} />
+            </>
           ) : (
             <Card>
-              <CardContent className="pt-6">
-                <div className="text-center text-muted-foreground py-8">
-                  {selectedKeyboard && selectedCorpus 
-                    ? 'Метрики для выбранных параметров не найдены'
-                    : 'Выберите корпус и клавиатуру для отображения метрик'
-                  }
+              <CardContent className="py-8">
+                <div className="text-center text-muted-foreground">
+                  <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>Метрики не найдены для выбранных параметров</p>
                 </div>
               </CardContent>
             </Card>

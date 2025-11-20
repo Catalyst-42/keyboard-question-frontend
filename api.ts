@@ -4,6 +4,7 @@ export interface Corpus {
   description: string | null;
   unique_symbols: number;
   size: number;
+  language: string;
 }
 
 export interface ApiResponse<T> {
