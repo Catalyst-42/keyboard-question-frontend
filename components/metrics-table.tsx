@@ -39,7 +39,7 @@ export function MetricsTable({
 }: MetricsTableProps) {
   const visibleColumns = columns.filter(col => col.isVisible);
 
-  // Функции для форматирования значений
+  // Functions for formatting values
   const formatPercentage = (value: number): string => {
     return `${(value * 100).toFixed(1)}%`;
   };
@@ -61,7 +61,7 @@ export function MetricsTable({
     return String(value || '');
   };
 
-  // Функция для сортировки
+  // Sorting function
   const handleSort = (columnId: string) => {
     if (sortState.column === columnId) {
       onSortChange({
@@ -76,19 +76,19 @@ export function MetricsTable({
     }
   };
 
-  // Получаем иконку для сортировки
+  // Get icon for sorting
   const getSortIcon = (columnId: string) => {
     if (sortState.column !== columnId) {
-      return <ChevronsUpDown className="h-4 w-4" />;
+      return <ChevronsUpDown className="h-5 w-5" />;
     }
     return sortState.direction === 'asc' ? 
-      <ChevronUp className="h-4 w-4" /> : 
-      <ChevronDown className="h-4 w-4" />;
+      <ChevronUp className="h-5 w-5" /> : 
+      <ChevronDown className="h-5 w-5" />;
   };
 
   return (
     <div className="space-y-4">
-      {/* Управление колонками */}
+      {/* Columns control */}
       <div className="flex justify-between items-center">
         <div className="text-sm text-muted-foreground">
           Показано: {metrics.length} записей
@@ -96,7 +96,7 @@ export function MetricsTable({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
-              <Eye className="h-4 w-4 mr-2" />
+              <Eye className="h-5 w-5 mr-2" />
               Колонки
             </Button>
           </DropdownMenuTrigger>
@@ -116,7 +116,7 @@ export function MetricsTable({
         </DropdownMenu>
       </div>
 
-      {/* Таблица */}
+      {/* Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>

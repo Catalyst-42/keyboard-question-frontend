@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { MetricWithRelations, FilterState, SortState, MetricColumn } from '@/api';
 import { metricService } from '@/lib/metric-service';
 
-// Конфигурация колонок по умолчанию
+// Default column configuration
 const defaultColumns: MetricColumn[] = [
   { id: 'layout_name', label: 'Раскладка', isVisible: true, isNumeric: false },
   { id: 'keyboard_name', label: 'Клавиатура', isVisible: true, isNumeric: false },
@@ -39,7 +39,7 @@ export function useMetricData() {
   
   const [columns, setColumns] = useState<MetricColumn[]>(defaultColumns);
 
-  // Загрузка данных
+  // Load data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,7 +59,7 @@ export function useMetricData() {
     fetchData();
   }, []);
 
-  // Применение фильтров
+  // Apply filters
   useEffect(() => {
     if (!data) return;
 
@@ -76,7 +76,7 @@ export function useMetricData() {
     setFilteredData(filtered);
   }, [data, filters]);
 
-  // Сортировка данных
+  // Sort data
   useEffect(() => {
     if (!filteredData) return;
 
@@ -99,7 +99,7 @@ export function useMetricData() {
     setSortedData(sorted);
   }, [filteredData, sortState]);
 
-  // Функции для управления
+  // Control functions
   const setCorpusFilter = (corpus: string) => {
     setFilters(prev => ({ ...prev, corpus }));
   };

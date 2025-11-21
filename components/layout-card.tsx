@@ -25,13 +25,13 @@ export function LayoutCard({ layout, previews }: LayoutCardProps) {
         </CardTitle>
         <CardDescription className="flex items-center gap-4">
           <span className="flex items-center gap-1">
-            <Languages className="h-4 w-4" />
+            <Languages className="h-5 w-5" />
             {layout.language}
           </span>
           {layoutPreviews.length > 0 && (
             <span className="flex items-center gap-1">
-              <FileText className="h-4 w-4" />
-              {layoutPreviews.length} превью
+              <FileText className="h-5 w-5" />
+              {layoutPreviews.length} previews
             </span>
           )}
         </CardDescription>
@@ -45,8 +45,8 @@ export function LayoutCard({ layout, previews }: LayoutCardProps) {
               </p>
             )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <FileText className="h-4 w-4" />
-              <span>Модель: {layout.layout_model.split('/').pop()}</span>
+              <FileText className="h-5 w-5" />
+              <span>Model: {layout.layout_model.split('/').pop()}</span>
             </div>
           </div>
           

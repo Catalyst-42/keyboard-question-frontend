@@ -10,7 +10,7 @@ interface LayoutMetricsChartsProps {
 }
 
 export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
-  // Конфигурация графиков
+  // Chart configuration
   const fingerUsageConfig = {
     left_hand: {
       label: "Левая рука",
@@ -36,7 +36,7 @@ export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
     },
   } satisfies ChartConfig;
 
-  // Данные для графиков
+  // Data for charts
   const fingerUsageData = [
     { finger: 'Мизинец Л', left_hand: metric.finger_usage_1 * 100, right_hand: 0 },
     { finger: 'Безымянный Л', left_hand: metric.finger_usage_2 * 100, right_hand: 0 },
@@ -50,7 +50,7 @@ export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
     { finger: 'Мизинец П', left_hand: 0, right_hand: metric.finger_usage_10 * 100 },
   ];
 
-  // Данные для графика использования рядов (транспонированные)
+  // Data for row usage chart (transposed)
   const rowUsageData = [
     { row: 'K', usage: metric.row_usage_k * 100 },
     { row: 'E', usage: metric.row_usage_e * 100 },
@@ -75,7 +75,7 @@ export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-      {/* График использования пальцев */}
+      {/* Finger usage chart */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Использование пальцев</CardTitle>
@@ -109,7 +109,7 @@ export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
         </CardContent>
       </Card>
 
-      {/* График использования рядов - транспонированный */}
+      {/* Row usage chart - transposed */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Использование рядов</CardTitle>
@@ -146,7 +146,7 @@ export function LayoutMetricsCharts({ metric }: LayoutMetricsChartsProps) {
         </CardContent>
       </Card>
 
-      {/* График дистанции по пальцам */}
+      {/* Finger distance chart */}
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Дистанция по пальцам</CardTitle>

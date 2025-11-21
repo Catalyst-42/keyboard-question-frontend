@@ -8,7 +8,7 @@ interface MetricCardProps {
 }
 
 export function MetricCard({ metric }: MetricCardProps) {
-  // Вспомогательные функции для форматирования
+  // Helper formatting functions
   const formatDistance = (value: number): string => {
     return value.toFixed(1);
   };
@@ -17,7 +17,7 @@ export function MetricCard({ metric }: MetricCardProps) {
     return `${(value * 100).toFixed(1)}%`;
   };
 
-  // Суммируем использование пальцев для левой и правой руки
+  // Sum finger usage for left and right hands
   const leftHandUsage = metric.finger_usage_1 + metric.finger_usage_2 + metric.finger_usage_3 + metric.finger_usage_4 + metric.finger_usage_5;
   const rightHandUsage = metric.finger_usage_6 + metric.finger_usage_7 + metric.finger_usage_8 + metric.finger_usage_9 + metric.finger_usage_10;
 
@@ -53,7 +53,7 @@ export function MetricCard({ metric }: MetricCardProps) {
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5" />
               <h3 className="text-xl font-semibold">
-                {metric.layout_name || `Раскладка ${metric.layout}`}
+                {metric.layout_name || `Layout ${metric.layout}`}
               </h3>
             </div>
 
@@ -67,7 +67,7 @@ export function MetricCard({ metric }: MetricCardProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Travel Distance */}
               <div className="flex items-center gap-2">
-                <Move className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Move className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Дистанция</div>
                   <div className="text-sm text-muted-foreground">
@@ -78,7 +78,7 @@ export function MetricCard({ metric }: MetricCardProps) {
 
               {/* Баланс рук */}
               <div className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <BarChart3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Баланс рук</div>
                   <div className="text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export function MetricCard({ metric }: MetricCardProps) {
 
               {/* SFB */}
               <div className="flex items-center gap-2">
-                <GitBranch className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <GitBranch className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">SFB</div>
                   <div className="text-sm text-muted-foreground">
@@ -100,7 +100,7 @@ export function MetricCard({ metric }: MetricCardProps) {
 
               {/* SFS */}
               <div className="flex items-center gap-2">
-                <GitBranch className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <GitBranch className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">SFS</div>
                   <div className="text-sm text-muted-foreground">
@@ -111,7 +111,7 @@ export function MetricCard({ metric }: MetricCardProps) {
 
               {/* Ножницы */}
               <div className="flex items-center gap-2">
-                <Scissors className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Scissors className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Ножницы</div>
                   <div className="text-sm text-muted-foreground">
@@ -122,7 +122,7 @@ export function MetricCard({ metric }: MetricCardProps) {
 
               {/* Rolls */}
               <div className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <BarChart3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Rolls</div>
                   <div className="text-sm text-muted-foreground">

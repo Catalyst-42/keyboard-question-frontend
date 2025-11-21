@@ -15,11 +15,11 @@ export function MetricDetails({ metric }: MetricDetailsProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {/* Основные метрики */}
+      {/* Main metrics */}
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Move className="h-4 w-4" />
+            <Move className="h-5 w-5" />
             Дистанция
           </CardTitle>
         </CardHeader>
@@ -31,7 +31,7 @@ export function MetricDetails({ metric }: MetricDetailsProps) {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <GitBranch className="h-4 w-4" />
+            <GitBranch className="h-5 w-5" />
             SFB
           </CardTitle>
         </CardHeader>
@@ -43,7 +43,7 @@ export function MetricDetails({ metric }: MetricDetailsProps) {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <GitBranch className="h-4 w-4" />
+            <GitBranch className="h-5 w-5" />
             SFS
           </CardTitle>
         </CardHeader>
@@ -55,7 +55,7 @@ export function MetricDetails({ metric }: MetricDetailsProps) {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <Scissors className="h-4 w-4" />
+            <Scissors className="h-5 w-5" />
             Ножницы
           </CardTitle>
         </CardHeader>

@@ -9,7 +9,7 @@ export const apiClient = axios.create({
   },
 });
 
-// Добавляем интерцепторы для обработки ошибок
+// Add interceptors for error handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {

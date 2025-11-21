@@ -29,7 +29,7 @@ export default function MetricsPage() {
   const [keyboards, setKeyboards] = useState<Keyboard[]>([]);
   const [loadingFilters, setLoadingFilters] = useState(true);
 
-  // Загружаем данные для фильтров
+  // Load data for filters
   useEffect(() => {
     const loadFilterData = async () => {
       try {
@@ -53,13 +53,13 @@ export default function MetricsPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col space-y-6">
-        {/* Заголовок */}
+        {/* Header */}
         <div className="flex items-center space-x-2">
           <BarChart3 className="h-6 w-6" />
           <h1 className="text-3xl font-bold">Метрики раскладок</h1>
         </div>
 
-        {/* Фильтры */}
+        {/* Filters */}
         {!loadingFilters && (
           <MetricsFilters
             corpora={corpora}
@@ -71,7 +71,7 @@ export default function MetricsPage() {
           />
         )}
 
-        {/* Состояние загрузки */}
+        {/* Loading state */}
         {loading && (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -79,15 +79,15 @@ export default function MetricsPage() {
           </div>
         )}
 
-        {/* Ошибка */}
+        {/* Error */}
         {error && (
           <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
+            <AlertCircle className="h-5 w-5" />
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
-        {/* Таблица */}
+        {/* Table */}
         {!loading && !error && data && data.length > 0 && (
           <MetricsTable
             metrics={data}
@@ -98,7 +98,7 @@ export default function MetricsPage() {
           />
         )}
 
-        {/* Нет данных */}
+        {/* No data */}
         {!loading && !error && data && data.length === 0 && (
           <Card>
             <CardHeader>

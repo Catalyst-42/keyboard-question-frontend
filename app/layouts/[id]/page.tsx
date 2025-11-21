@@ -33,7 +33,7 @@ export default function LayoutDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Загрузка данных раскладки
+  // Load layout data
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -54,7 +54,7 @@ export default function LayoutDetailPage() {
         setCorpora(corporaData);
         setMetrics(metricsData);
 
-        // Выбираем первую клавиатуру и корпус по умолчанию
+        // Choose default keyboard and corpus
         if (keyboardsData.length > 0) {
           setSelectedKeyboard(keyboardsData[0].id.toString());
         }
@@ -74,7 +74,7 @@ export default function LayoutDetailPage() {
     }
   }, [layoutId]);
 
-  // Поиск метрики при изменении выбора
+  // Find metric on selection change
   useEffect(() => {
     if (selectedKeyboard && selectedCorpus && metrics.length > 0) {
       const metric = metrics.find(m => 
@@ -86,7 +86,7 @@ export default function LayoutDetailPage() {
     }
   }, [selectedKeyboard, selectedCorpus, metrics, layoutId]);
 
-  // Получаем превью для выбранной клавиатуры
+  // Get preview for selected keyboard
   const selectedPreview = previews.find(
     preview => preview.layout === parseInt(layoutId) && 
                preview.keyboard === parseInt(selectedKeyboard)
@@ -107,7 +107,7 @@ export default function LayoutDetailPage() {
     return (
       <div className="container mx-auto py-8">
         <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="h-5 w-5" />
           <AlertDescription>
             {error || 'Раскладка не найдена'}
           </AlertDescription>
@@ -119,7 +119,7 @@ export default function LayoutDetailPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col space-y-8">
-        {/* Заголовок и навигация */}
+        {/* Header and navigation */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Keyboard className="h-6 w-6" />
@@ -130,11 +130,11 @@ export default function LayoutDetailPage() {
           </div>
         </div>
 
-        {/* Основной контент */}
+        {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Левая колонка - превью и информация */}
+          {/* Left column - preview and info */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Превью раскладки */}
+            {/* Layout preview */}
             <Card>
               <CardHeader>
                 <CardTitle>Превью раскладки</CardTitle>
@@ -162,7 +162,7 @@ export default function LayoutDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Описание */}
+            {/* Description */}
             {layout.description && (
               <Card>
                 <CardHeader>
@@ -175,9 +175,9 @@ export default function LayoutDetailPage() {
             )}
           </div>
 
-          {/* Правая колонка - управление и информация */}
+          {/* Right column - controls and info */}
           <div className="space-y-6">
-            {/* Выбор клавиатуры для превью */}
+            {/* Select keyboard for preview */}
             <Card>
               <CardHeader>
                 <CardTitle>Форм-фактор</CardTitle>
@@ -204,7 +204,7 @@ export default function LayoutDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Информация о модели */}
+            {/* Model info */}
             <Card>
               <CardHeader>
                 <CardTitle>Файл модели</CardTitle>
@@ -212,7 +212,7 @@ export default function LayoutDetailPage() {
               <CardContent>
                 <div className="flex items-center justify-between p-3 border rounded-md">
                   <div className="flex items-center gap-2">
-                    <Download className="h-4 w-4 text-muted-foreground" />
+                    <Download className="h-5 w-5 text-muted-foreground" />
                     <span className="text-sm font-medium">
                       {layout.layout_model.split('/').pop()}
                     </span>
@@ -230,17 +230,17 @@ export default function LayoutDetailPage() {
           </div>
         </div>
 
-        {/* Разделитель */}
+        {/* Separator */}
         <Separator />
 
-        {/* Секция метрик */}
+        {/* Metrics section */}
         <div className="space-y-6">
           <div className="flex items-center space-x-2">
             <BarChart3 className="h-6 w-6" />
             <h2 className="text-2xl font-bold">Метрики раскладки</h2>
           </div>
 
-          {/* Выбор параметров для метрик */}
+          {/* Metrics parameters selection */}
           <LayoutMetricsSelector
             corpora={corpora}
             keyboards={keyboards}
@@ -250,7 +250,7 @@ export default function LayoutDetailPage() {
             onKeyboardChange={setSelectedKeyboard}
           />
 
-          {/* Графики метрик */}
+          {/* Metrics charts */}
           {currentMetric ? (
             <>
             <LayoutMetricsCharts metric={currentMetric} />

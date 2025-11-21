@@ -25,8 +25,8 @@ export function CorpusCard({ corpus }: CorpusCardProps) {
           </Link>
         </CardTitle>
         <CardDescription className="flex items-center gap-2">
-          <Languages className="h-4 w-4" />
-          <span>Язык: {corpus.language}</span>
+          <Languages className="h-5 w-5" />
+          <span>Language: {corpus.language}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -45,7 +45,7 @@ export function CorpusCard({ corpus }: CorpusCardProps) {
           </div>
         </div>
 
-        {/* Ссылка на детальную страницу */}
+        {/* Link to detail page */}
         <div className="pt-3">
           <Link 
             href={`/corpora/${corpus.id}`}

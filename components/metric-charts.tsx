@@ -9,7 +9,7 @@ interface MetricsChartsProps {
 }
 
 export function MetricsCharts({ metric }: MetricsChartsProps) {
-  // Данные для графика использования пальцев
+  // Data for finger usage chart
   const fingerUsageData = [
     { name: 'Мизинец Л', value: metric.finger_usage_1, color: '#3b82f6' },
     { name: 'Безымянный Л', value: metric.finger_usage_2, color: '#60a5fa' },
@@ -23,7 +23,7 @@ export function MetricsCharts({ metric }: MetricsChartsProps) {
     { name: 'Мизинец П', value: metric.finger_usage_10, color: '#f59e0b' },
   ];
 
-  // Данные для графика использования рядов
+  // Data for row usage chart
   const rowUsageData = [
     { name: 'K (верхний)', value: metric.row_usage_k, color: '#ef4444' },
     { name: 'E (верхний)', value: metric.row_usage_e, color: '#f97316' },
@@ -33,7 +33,7 @@ export function MetricsCharts({ metric }: MetricsChartsProps) {
     { name: 'A (нижний)', value: metric.row_usage_a, color: '#8b5cf6' },
   ];
 
-  // Данные для графика дистанции по пальцам
+  // Data for finger distance chart
   const fingerDistanceData = [
     { name: 'Мизинец Л', distance: metric.travel_distance_finger_1 },
     { name: 'Безымянный Л', distance: metric.travel_distance_finger_2 },
@@ -47,12 +47,12 @@ export function MetricsCharts({ metric }: MetricsChartsProps) {
     { name: 'Мизинец П', distance: metric.travel_distance_finger_10 },
   ];
 
-  // Форматирование процентов для тултипов
+  // Format percentages for tooltips
   const formatPercent = (value: number) => `${(value * 100).toFixed(1)}%`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Использование пальцев */}
+      {/* Finger usage */}
       <Card>
         <CardHeader>
           <CardTitle>Использование пальцев</CardTitle>
@@ -75,7 +75,7 @@ export function MetricsCharts({ metric }: MetricsChartsProps) {
         </CardContent>
       </Card>
 
-      {/* Использование рядов */}
+      {/* Row usage */}
       <Card>
         <CardHeader>
           <CardTitle>Использование рядов</CardTitle>
@@ -105,7 +105,7 @@ export function MetricsCharts({ metric }: MetricsChartsProps) {
         </CardContent>
       </Card>
 
-      {/* Дистанция по пальцам */}
+      {/* Finger distance */}
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle>Дистанция перемещения по пальцам</CardTitle>

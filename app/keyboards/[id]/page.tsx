@@ -21,7 +21,7 @@ export default function KeyboardDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Загрузка данных клавиатуры
+  // Load keyboard data
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -35,7 +35,7 @@ export default function KeyboardDetailPage() {
 
         setKeyboard(keyboardData);
         
-        // Фильтруем превью для этой клавиатуры
+        // Filter previews for this keyboard
         const keyboardPreviews = previewsData.filter(
           preview => preview.keyboard === parseInt(keyboardId)
         );
@@ -68,7 +68,7 @@ export default function KeyboardDetailPage() {
     return (
       <div className="container mx-auto py-8">
         <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+          <AlertCircle className="h-5 w-5" />
           <AlertDescription>
             {error || 'Клавиатура не найдена'}
           </AlertDescription>
@@ -80,31 +80,31 @@ export default function KeyboardDetailPage() {
   return (
     <div className="container mx-auto py-8 max-w-4xl">
       <div className="flex flex-col space-y-8">
-        {/* Заголовок */}
+        {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-3">
             <KeyboardIcon className="h-8 w-8" />
             <h1 className="text-4xl font-bold">{keyboard.name}</h1>
           </div>
-          <div className="flex items-center justify-center gap-4 text-muted-foreground">
+            <div className="flex items-center justify-center gap-4 text-muted-foreground">
             <div className="flex items-center gap-2">
-              <Monitor className="h-4 w-4" />
+              <Monitor className="h-5 w-5" />
               <span>{keyboard.form_factor}</span>
             </div>
             <div className="w-px h-4 bg-border" />
             <div className="flex items-center gap-2">
-              <Grid3X3 className="h-4 w-4" />
+              <Grid3X3 className="h-5 w-5" />
               <span>{keyboard.keys} клавиш</span>
             </div>
             <div className="w-px h-4 bg-border" />
             <div className="flex items-center gap-2">
-              <Grid3X3 className="h-4 w-4" />
+              <Grid3X3 className="h-5 w-5" />
               <span>{keyboard.rows} рядов</span>
             </div>
           </div>
         </div>
 
-        {/* Основное изображение */}
+        {/* Main image */}
         {keyboard.keyboard_preview && (
           <div className="relative aspect-video w-full overflow-hidden rounded-xl border bg-muted/50">
             <Image
@@ -117,7 +117,7 @@ export default function KeyboardDetailPage() {
           </div>
         )}
 
-        {/* Описание */}
+        {/* Description */}
         {keyboard.description && (
           <section className="prose prose-gray max-w-none">
             <h2 className="text-2xl font-semibold mb-4">Описание</h2>
@@ -129,7 +129,7 @@ export default function KeyboardDetailPage() {
 
         <Separator />
 
-        {/* Характеристики */}
+        {/* Specifications */}
         <section className="space-y-6">
           <h2 className="text-2xl font-semibold">Технические характеристики</h2>
           
@@ -174,7 +174,7 @@ export default function KeyboardDetailPage() {
           </div>
         </section>
 
-        {/* Файл модели */}
+        {/* Model file */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">Файлы</h2>
           <div className="flex items-center justify-between p-4 border rounded-lg bg-muted/50">
@@ -187,9 +187,9 @@ export default function KeyboardDetailPage() {
                 </div>
               </div>
             </div>
-            <Button asChild variant="outline">
+              <Button asChild variant="outline">
               <a href={keyboard.keyboard_model} download>
-                <Download className="h-4 w-4 mr-2" />
+                <Download className="h-5 w-5 mr-2" />
                 Скачать
               </a>
             </Button>
@@ -198,7 +198,7 @@ export default function KeyboardDetailPage() {
 
         <Separator />
 
-        {/* Доступные раскладки */}
+        {/* Available layouts */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold">Доступные раскладки</h2>
@@ -241,7 +241,7 @@ export default function KeyboardDetailPage() {
           )}
         </section>
 
-        {/* Навигация */}
+        {/* Navigation */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">Исследовать дальше</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

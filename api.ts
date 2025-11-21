@@ -19,14 +19,14 @@ export interface Layout {
   name: string;
   description: string | null;
   language: string;
-  layout_model: string; // URL к файлу
+  layout_model: string; // URL to the model file
 }
 
 export interface LayoutPreview {
   id: number;
-  keyboard: number; // ID клавиатуры
-  layout: number; // ID раскладки
-  layout_preview: string; // URL к изображению
+  keyboard: number; // keyboard ID
+  layout: number; // layout ID
+  layout_preview: string; // URL to the preview image
 }
 
 export interface LayoutWithPreviews extends Layout {
@@ -40,27 +40,27 @@ export interface Keyboard {
   form_factor: string;
   keys: number;
   rows: number;
-  keyboard_model: string; // URL к файлу
-  keyboard_preview: string; // URL к изображению
+  keyboard_model: string; // URL to the model file
+  keyboard_preview: string; // URL to the preview image
 }
 
-// ... существующие типы ...
+// ... existing types ...
 export interface FilterState {
-  corpus: string; // 'all' или ID корпуса
-  keyboard: string; // 'all' или ID клавиатуры
+  corpus: string; // 'all' or corpus ID
+  keyboard: string; // 'all' or keyboard ID
 }
 
 export interface Metric {
   id: number;
-  corpus: number; // ID корпуса
-  keyboard: number; // ID клавиатуры
-  layout: number; // ID раскладки
-  frequency_heatmap: string; // URL к изображению
+  corpus: number; // corpus ID
+  keyboard: number; // keyboard ID
+  layout: number; // layout ID
+  frequency_heatmap: string; // URL to the heatmap image
 
-  // Основные метрики для отображения в карточке
+  // Main metrics for card display
   travel_distance: number;
   
-  // Использование пальцев (%)
+  // Finger usage (%)
   finger_usage_1: number;
   finger_usage_2: number;
   finger_usage_3: number;
@@ -72,7 +72,7 @@ export interface Metric {
   finger_usage_9: number;
   finger_usage_10: number;
 
-  // Использование рядов (%)
+  // Row usage (%)
   row_usage_k: number;
   row_usage_e: number;
   row_usage_d: number;
@@ -80,21 +80,21 @@ export interface Metric {
   row_usage_b: number;
   row_usage_a: number;
 
-  // SFB и SFS
+  // SFB and SFS
   same_finger_bigram_frequency: number;
   same_finger_skipgram_frequency: number;
 
-  // Ножницы
+  // Scissors
   half_scissor_bigram_frequency: number;
   full_scissor_bigram_frequency: number;
 
-  // Триграммы
+  // Trigrams
   roll_frequency: number;
   alternate_frequency: number;
   onehand_frequency: number;
   redirect_frequency: number;
 
-  // Остальные поля для полноты API
+  // Other fields for API completeness
   travel_distance_finger_1: number;
   travel_distance_finger_2: number;
   travel_distance_finger_3: number;
@@ -113,7 +113,7 @@ export interface Metric {
   lateral_stretch_skipgram_frequency: number;
 }
 
-// Расширенный интерфейс с связанными объектами
+// Extended interface with related objects
 export interface MetricWithRelations extends Metric {
   corpus_name?: string;
   keyboard_name?: string;

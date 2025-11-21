@@ -12,13 +12,13 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
   return (
     <Card className="hover:shadow-md transition-shadow">
       <div className="flex flex-col md:flex-row">
-        {/* Превью клавиатуры */}
+        {/* Keyboard preview */}
         {keyboard.keyboard_preview && (
           <div className="md:w-1/2 flex items-center justify-center p-2">
             <div className="relative w-full aspect-video">
               <Image
                 src={keyboard.keyboard_preview}
-                alt={`Превью ${keyboard.name}`}
+                alt={`Preview ${keyboard.name}`}
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -27,17 +27,17 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
           </div>
         )}
 
-        {/* Разделитель для десктопов */}
+        {/* Divider for desktops */}
         {keyboard.keyboard_preview && (
           <div className="hidden md:block">
             <div className="w-px h-full bg-border" />
           </div>
         )}
 
-        {/* Информация */}
+        {/* Info */}
         <div className={`${keyboard.keyboard_preview ? 'md:w-1/2' : 'w-full'} p-4`}>
           <div className="space-y-3">
-            {/* Заголовок */}
+            {/* Title */}
             <div className="flex items-center gap-2">
               <KeyboardIcon className="h-5 w-5" />
               <Link 
@@ -48,36 +48,36 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
               </Link>
             </div>
 
-            {/* Характеристики */}
+            {/* Attributes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex items-center gap-2">
-                <Monitor className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Monitor className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">Форм-фактор</div>
+                  <div className="text-sm font-medium">Form factor</div>
                   <div className="text-sm text-muted-foreground">{keyboard.form_factor}</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <Grid3X3 className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Grid3X3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">Клавиши</div>
+                  <div className="text-sm font-medium">Keys</div>
                   <div className="text-sm text-muted-foreground">{keyboard.keys}</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <Grid3X3 className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <Grid3X3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">Ряды</div>
+                  <div className="text-sm font-medium">Rows</div>
                   <div className="text-sm text-muted-foreground">{keyboard.rows}</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div className="min-w-0">
-                  <div className="text-sm font-medium">Модель</div>
+                  <div className="text-sm font-medium">Model</div>
                   <div className="text-sm text-muted-foreground truncate">
                     {keyboard.keyboard_model.split('/').pop()}
                   </div>
@@ -85,13 +85,13 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
               </div>
             </div>
 
-            {/* Ссылка на детальную страницу */}
+            {/* Link to detail page */}
             <div className="pt-2">
               <Link 
                 href={`/keyboards/${keyboard.id}`}
                 className="text-sm text-primary hover:underline inline-flex items-center gap-1"
               >
-                Подробнее о клавиатуре →
+                More about this keyboard →
               </Link>
             </div>
           </div>

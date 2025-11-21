@@ -91,11 +91,11 @@ export function MobileNav() {
           <span className="text-lg font-bold">KeyboardQuestion</span>
         </div>
         
-        {/* Группа: База данных */}
+        {/* Group: Database */}
         <div className="space-y-1 p-2">
           <div className="px-4 py-2">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <Database className="h-4 w-4" />
+              <Database className="h-5 w-5" />
               База данных
             </div>
           </div>
@@ -110,7 +110,7 @@ export function MobileNav() {
                 onClick={() => setOpen(false)}
               >
                 <Link href={item.href}>
-                  <Icon className="mr-2 h-4 w-4" />
+                  <Icon className="mr-2 h-5 w-5" />
                   {item.title}
                 </Link>
               </Button>
@@ -120,11 +120,11 @@ export function MobileNav() {
 
         <Separator className="my-2" />
 
-        {/* Группа: Знания */}
+        {/* Group: Knowledge */}
         <div className="space-y-1 p-2">
           <div className="px-4 py-2">
             <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-              <BookOpen className="h-4 w-4" />
+              <BookOpen className="h-5 w-5" />
               Знания
             </div>
           </div>
@@ -139,7 +139,7 @@ export function MobileNav() {
                 onClick={() => setOpen(false)}
               >
                 <Link href={item.href}>
-                  <Icon className="mr-2 h-4 w-4" />
+                  <Icon className="mr-2 h-5 w-5" />
                   {item.title}
                 </Link>
               </Button>

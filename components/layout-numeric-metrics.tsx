@@ -9,7 +9,7 @@ interface LayoutNumericMetricsProps {
 }
 
 export function LayoutNumericMetrics({ metric }: LayoutNumericMetricsProps) {
-  // Функции форматирования
+  // Formatting functions
   const formatPercentage = (value: number): string => {
     return `${(value * 100).toFixed(1)}%`;
   };
@@ -18,7 +18,7 @@ export function LayoutNumericMetrics({ metric }: LayoutNumericMetricsProps) {
     return value.toFixed(1);
   };
 
-  // Основные числовые метрики
+  // Main numeric metrics
   const numericMetrics = [
     {
       icon: Move,
@@ -97,9 +97,9 @@ export function LayoutNumericMetrics({ metric }: LayoutNumericMetricsProps) {
         </CardContent>
       </Card>
 
-      {/* Дополнительные метрики */}
+      {/* Additional metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Метрики ножниц */}
+        {/* Scissors metrics */}
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Метрики ножниц</CardTitle>
