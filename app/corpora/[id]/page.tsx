@@ -176,15 +176,15 @@ export default function CorpusDetailPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <Link 
-                    href="/metrics" 
+                  <Link
+                    href="/metrics"
                     className="flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-md transition-colors"
                   >
                     <ExternalLink className="h-4 w-4" />
                     Метрики этого корпуса
                   </Link>
-                  <Link 
-                    href="/layouts" 
+                  <Link
+                    href="/layouts"
                     className="flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-md transition-colors"
                   >
                     <ExternalLink className="h-4 w-4" />
@@ -207,55 +207,6 @@ export default function CorpusDetailPage() {
             </div>
           </div>
 
-          {/* Список раскладок */}
-          {layouts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {layouts.map((layout) => (
-                <Card key={layout.id} className="hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-base">
-                      <Link 
-                        href={`/layouts/${layout.id}`}
-                        className="hover:text-primary transition-colors flex items-center gap-2"
-                      >
-                        <FileText className="h-4 w-4" />
-                        {layout.name}
-                      </Link>
-                    </CardTitle>
-                    <CardDescription>
-                      {layout.language} • {layout.layout_model.split('/').pop()}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    {layout.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                        {layout.description}
-                      </p>
-                    )}
-                    <Link 
-                      href={`/layouts/${layout.id}`}
-                      className="text-sm text-primary hover:underline inline-flex items-center gap-1"
-                    >
-                      Подробнее
-                      <ExternalLink className="h-3 w-3" />
-                    </Link>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="py-8">
-                <div className="text-center text-muted-foreground">
-                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Нет раскладок для языка {corpus.language}</p>
-                  <p className="text-sm mt-2">
-                    Раскладки появятся после их добавления в систему
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
     </div>

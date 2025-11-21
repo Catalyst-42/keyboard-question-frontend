@@ -43,8 +43,8 @@ export default function LayoutsPage() {
               {previews && <span>Превью: {previews.length}</span>}
             </div>
 
-            {/* Список раскладок */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Список раскладок - теперь вертикальный */}
+            <div className="space-y-4">
               {data.map((layout) => (
                 <LayoutCard 
                   key={layout.id} 
