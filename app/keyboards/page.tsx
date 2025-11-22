@@ -1,11 +1,11 @@
 'use client';
 
-import { Keyboard as KeyboardIcon, Loader2, AlertCircle, BookOpen } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useKeyboardData } from '@/hooks/use-keyboard-data';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import Link from 'next/link';
+import { AlertCircle, BookOpen, Keyboard as KeyboardIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 export default function KeyboardsPage() {
@@ -14,21 +14,12 @@ export default function KeyboardsPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col space-y-6">
-        {/* Заголовок */}
         <div className="flex items-center space-x-2">
           <KeyboardIcon className="h-6 w-6" />
           <h1 className="text-3xl font-bold">Keyboards</h1>
         </div>
 
-        {/* Состояние загрузки */}
-        {loading && (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <span className="ml-2 text-muted-foreground">Loading keyboards...</span>
-          </div>
-        )}
-
-        {/* Ошибка */}
+        {/* Error */}
         {error && (
           <Alert variant="destructive">
             <AlertCircle className="h-5 w-5" />
@@ -36,18 +27,11 @@ export default function KeyboardsPage() {
           </Alert>
         )}
 
-        {/* Данные */}
+        {/* Data */}
         {!loading && !error && data && data.length > 0 && (
           <>
             <div className="flex items-center justify-between gap-4">
               <div className="text-sm text-muted-foreground">Total keyboards: {data.length}</div>
-              <div className="flex items-center gap-2">
-                <input
-                  className="border px-2 py-1 rounded text-sm"
-                  placeholder="Search keyboards"
-                  onChange={(e) => { /* placeholder to keep markup stable - search handled below */ }}
-                />
-              </div>
             </div>
 
             {/* make a client-side filtered list with all items open */}

@@ -1,3 +1,10 @@
+export interface ApiResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
 export interface Corpus {
   id: number;
   name: string;
@@ -5,13 +12,6 @@ export interface Corpus {
   unique_symbols: number;
   size: number;
   language: string;
-}
-
-export interface ApiResponse<T> {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: T[];
 }
 
 export interface Layout {
@@ -37,11 +37,12 @@ export interface Keyboard {
   id: number;
   name: string;
   description: string | null;
+  features: string | null;
   form_factor: string;
   keys: number;
   rows: number;
-  keyboard_model: string; // URL to the model file
-  keyboard_preview: string; // URL to the preview image
+  keyboard_model: string;
+  keyboard_preview: string;
 }
 
 // ... existing types ...
@@ -105,6 +106,7 @@ export interface Metric {
   travel_distance_finger_8: number;
   travel_distance_finger_9: number;
   travel_distance_finger_10: number;
+
   same_finger_bigram_mean_distance: number;
   same_finger_skipgram_mean_distance: number;
   half_scissor_skipgram_frequency: number;

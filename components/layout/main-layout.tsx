@@ -11,7 +11,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50  border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <header className="sticky top-0 z-50 bg-background/95 border-b-2 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="flex h-14 items-center">
           <MobileNav />
 
@@ -26,14 +26,14 @@ export function MainLayout({ children }: MainLayoutProps) {
         </div>
       </header>
 
-      <div className="flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+      <div className="flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] lg:grid-cols-[240px_minmax(0,1fr)]">
         {/* Left panel */}
-        <aside className="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto border-r md:sticky md:block">
+        <aside className="fixed top-14 z-30 hidden h-[calc(100vh-3.5rem)] w-full shrink-0 overflow-y-auto md:sticky md:block">
           <SidebarNav />
         </aside>
 
         {/* Page Content */}
-        <main className="flex w-full flex-col overflow-hidden">
+        <main className="flex w-full flex-col overflow-hidden px-4">
           {children}
         </main>
       </div>
