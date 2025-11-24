@@ -51,7 +51,7 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
             {/* Attributes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="flex items-center gap-2">
-                <Monitor className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <Monitor className="h-5 w-5 text-muted-foreground shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Form factor</div>
                   <div className="text-sm text-muted-foreground">{keyboard.form_factor}</div>
@@ -59,7 +59,7 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
               </div>
 
               <div className="flex items-center gap-2">
-                <Grid3X3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <Grid3X3 className="h-5 w-5 text-muted-foreground shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Keys</div>
                   <div className="text-sm text-muted-foreground">{keyboard.keys}</div>
@@ -67,7 +67,7 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
               </div>
 
               <div className="flex items-center gap-2">
-                <Grid3X3 className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <Grid3X3 className="h-5 w-5 text-muted-foreground shrink-0" />
                 <div>
                   <div className="text-sm font-medium">Rows</div>
                   <div className="text-sm text-muted-foreground">{keyboard.rows}</div>
@@ -75,7 +75,7 @@ export function KeyboardCard({ keyboard }: KeyboardCardProps) {
               </div>
 
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                <FileText className="h-5 w-5 text-muted-foreground shrink-0" />
                 <div className="min-w-0">
                   <div className="text-sm font-medium">Model</div>
                   <div className="text-sm text-muted-foreground truncate">

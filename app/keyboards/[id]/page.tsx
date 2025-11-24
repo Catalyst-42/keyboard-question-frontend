@@ -4,6 +4,7 @@ import { Keyboard } from '@/api';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DownloadButton from '@/components/ui/download-button';
+import { H1 } from '@/components/ui/h1';
 import { keyboardService } from '@/lib/keyboard-service';
 import { AlertCircle, FileText, Monitor, Rows3, SquareDot } from 'lucide-react';
 import Image from 'next/image';
@@ -52,7 +53,7 @@ export default function KeyboardDetailPage() {
     return (
       <div className="container py-8">
         <Alert variant="destructive">
-          <AlertCircle className="h-5 w-5" />
+          <AlertCircle className="h-4 w-4" />
           <AlertDescription>
             {error || 'Клавиатура не найдена'}
           </AlertDescription>
@@ -65,15 +66,12 @@ export default function KeyboardDetailPage() {
     <div className="container py-8">
       <div className="flex flex-col space-y-4">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="flex items-center justify-left gap-3">
-            <h1 className="text-4xl font-bold">Клавиатура {keyboard.name}</h1>
-          </div>
-        </div>
+        <H1>Клавиатура {keyboard.name}</H1>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-          <div className="md:col-span-2">
-            <Card className="h-full">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Left: preview (2/3 on desktop, full width on mobile) */}
+          <div className="xl:col-span-2">
+            <Card className="h-full w-full">
               <CardHeader>
                 <CardTitle>Превью</CardTitle>
               </CardHeader>
@@ -86,7 +84,7 @@ export default function KeyboardDetailPage() {
                       fill
                       className="object-contain"
                       priority
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 66vw, 50vw"
+                      sizes="(max-width: 1024px) 100vw, 66vw"
                     />
                   </div>
                 )}
@@ -94,55 +92,70 @@ export default function KeyboardDetailPage() {
             </Card>
           </div>
 
-          {/* Right: specifications (1/3) */}
-          <aside className="md:col-span-1">
-            <Card className="h-full">
+          {/* Right: specifications (1/3 on desktop, full width on mobile) */}
+          <div className="lg:col-span-1">
+            <Card className="h-full w-full">
               <CardHeader>
-                <CardTitle>Характеристики</CardTitle>
+                <CardTitle>Свойства</CardTitle>
               </CardHeader>
 
               <CardContent className="flex-1">
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Monitor className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-medium">Форм-фактор</span>
+                <div className="space-y-3">
+                  {/* Form factor */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <Monitor className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Форм фактор</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">{keyboard.form_factor}</div>
                     </div>
-                    <div className="text-muted-foreground ml-7">{keyboard.form_factor}</div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <SquareDot className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-medium">Количество клавиш</span>
+                  {/* Number of keys */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <SquareDot className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Число клавиш</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">{keyboard.keys}</div>
                     </div>
-                    <div className="text-muted-foreground ml-7">{keyboard.keys}</div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Rows3 className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-medium">Количество рядов</span>
+                  {/* Number of rows */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <Rows3 className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Число рядов</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">{keyboard.rows}</div>
                     </div>
-                    <div className="text-muted-foreground ml-7">{keyboard.rows}</div>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <div className="font-medium">Файл модели</div>
-                      <div className="text-muted-foreground">
+                  {/* Model file */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <FileText className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Файл модели</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">
                         {keyboard.keyboard_model.split('/').pop()}
                       </div>
                     </div>
+                    <div className="flex items-center justify-center pl-3 self-stretch">
+                      <DownloadButton
+                        href={keyboard.keyboard_model}
+                        aria-label={`Download ${keyboard.name} model`}
+                      />
+                    </div>
                   </div>
-                  <DownloadButton href={keyboard.keyboard_model} aria-label={`Скачать модель ${keyboard.name}`} />
                 </div>
-                </CardContent>
+              </CardContent>
             </Card>
-          </aside>
+          </div>
         </div>
 
         {/* Description */}

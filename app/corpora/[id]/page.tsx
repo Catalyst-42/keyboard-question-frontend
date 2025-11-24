@@ -2,43 +2,36 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { BookText, Loader2, AlertCircle, FileText, Languages, Hash, ExternalLink } from 'lucide-react';
+import { BookText, Loader2, AlertCircle, FileText, Hash, Languages } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Corpus, Layout } from '@/api';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { H1 } from '@/components/ui/h1';
+import { Corpus } from '@/api';
 import { corpusService } from '@/lib/corpus-service';
 import { layoutService } from '@/lib/layout-service';
-import Link from 'next/link';
 
 export default function CorpusDetailPage() {
   const params = useParams();
   const corpusId = params.id as string;
 
   const [corpus, setCorpus] = useState<Corpus | null>(null);
-  const [layouts, setLayouts] = useState<Layout[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load corpus and layouts
+  // Load corpus data
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const [corpusData, allLayoutsData] = await Promise.all([
+        const [corpusData] = await Promise.all([
           corpusService.getCorpus(parseInt(corpusId)),
-          layoutService.getLayouts(),
         ]);
 
         setCorpus(corpusData);
-
-        // Filter layouts by corpus language
-        const filteredLayouts = allLayoutsData.filter(
-          (layout) => layout.language.toLowerCase() === corpusData.language.toLowerCase()
-        );
-        setLayouts(filteredLayouts);
       } catch (err) {
-        setError('Error loading corpus');
+        setError('Ошибка при загрузке данных корпуса');
         console.error('Error loading corpus:', err);
       } finally {
         setLoading(false);
@@ -55,128 +48,90 @@ export default function CorpusDetailPage() {
     return new Intl.NumberFormat('ru-RU').format(num);
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <span className="ml-2 text-muted-foreground">Loading corpus...</span>
-        </div>
-      </div>
-    );
-  }
 
   if (error || !corpus) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="container py-8">
         <Alert variant="destructive">
-          <AlertCircle className="h-5 w-5" />
-          <AlertDescription>{error || 'Corpus not found'}</AlertDescription>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error || 'Корпус не найден'}</AlertDescription>
         </Alert>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <article className="flex flex-col space-y-8">
+    <div className="container py-8">
+      <div className="flex flex-col space-y-6">
         {/* Header */}
-        <header className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <BookText className="h-6 w-6" />
-            <h1 className="text-3xl font-bold">{corpus.name}</h1>
+        <H1>Корпус {corpus.name}</H1>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          {/* Left: description (2/3 on desktop, full width on mobile) */}
+          <div className="xl:col-span-2">
+            <section className="space-y-4">
+              <h2 className="text-lg font-semibold">Описание</h2>
+              {corpus.description ? (
+                <p className="leading-relaxed whitespace-pre-wrap">
+                  {corpus.description}
+                </p>
+              ) : (
+                <p className="text-muted-foreground italic text-lg">Описание отсутствует</p>
+              )}
+            </section>
           </div>
-          <div className="text-sm text-muted-foreground">Language: {corpus.language}</div>
-        </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <main className="lg:col-span-2 space-y-6">
-            <section aria-labelledby="info" className="bg-card p-4 rounded-md">
-              <h2 id="info" className="text-lg font-semibold">Corpus information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          {/* Right: statistics (1/3 on desktop, full width on mobile) */}
+          <div className="xl:col-span-1">
+            <Card className="w-full h-fit">
+              <CardHeader>
+                <CardTitle>Статистика</CardTitle>
+              </CardHeader>
+
+              <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <FileText className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <div className="text-sm font-medium">Corpus size</div>
-                      <div className="text-2xl font-bold">{formatNumber(corpus.size)}</div>
-                      <div className="text-sm text-muted-foreground">characters</div>
+                  {/* Language */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <Languages className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Язык корпуса</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">{corpus.language}</div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <Hash className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <div className="text-sm font-medium">Unique symbols</div>
-                      <div className="text-2xl font-bold">{formatNumber(corpus.unique_symbols)}</div>
-                      <div className="text-sm text-muted-foreground">different symbols</div>
+                  {/* Corpus size */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <FileText className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Размер корпуса</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">
+                        {formatNumber(corpus.size)} символов
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Unique symbols */}
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <Hash className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Уникальные символы</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">
+                        {formatNumber(corpus.unique_symbols)} символов
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Languages className="h-5 w-5 text-muted-foreground" />
-                    <div>
-                      <div className="text-sm font-medium">Language</div>
-                      <div className="text-2xl font-bold">{corpus.language}</div>
-                      <div className="text-sm text-muted-foreground">language code</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {corpus.description && (
-              <section aria-labelledby="desc" className="bg-card p-4 rounded-md">
-                <h2 id="desc" className="text-lg font-semibold">Description</h2>
-                <p className="text-muted-foreground leading-relaxed mt-3">{corpus.description}</p>
-              </section>
-            )}
-          </main>
-
-          <aside className="space-y-6">
-            <section className="bg-card p-4 rounded-md">
-              <h3 className="text-lg font-semibold">Statistics</h3>
-              <div className="mt-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Average length</span>
-                  <span className="font-mono text-sm">{formatNumber(Math.round(corpus.size / corpus.unique_symbols))}</span>
-                </div>
-              </div>
-            </section>
-
-            <nav className="bg-card p-4 rounded-md">
-              <h3 className="text-lg font-semibold">Navigation</h3>
-              <div className="space-y-2 mt-3">
-                <Link
-                  href="/metrics"
-                  className="flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-md transition-colors"
-                >
-                  <ExternalLink className="h-5 w-5" />
-                  Metrics for this corpus
-                </Link>
-                <Link
-                  href="/layouts"
-                  className="flex items-center gap-2 p-2 text-sm hover:bg-muted rounded-md transition-colors"
-                >
-                  <ExternalLink className="h-5 w-5" />
-                  All layouts
-                </Link>
-              </div>
-            </nav>
-          </aside>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-
-        <section>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <h2 className="text-2xl font-bold">Layouts for {corpus.language}</h2>
-              <span className="bg-muted text-muted-foreground px-2 py-1 rounded-md text-sm">{layouts.length}</span>
-            </div>
-          </div>
-        </section>
-      </article>
+      </div>
     </div>
   );
 }

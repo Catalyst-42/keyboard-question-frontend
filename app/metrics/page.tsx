@@ -1,32 +1,38 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { BarChart3, Loader2, AlertCircle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Corpus, Keyboard } from '@/api';
 import { MetricsFilters } from '@/components/metrics-filter';
 import { MetricsTable } from '@/components/metrics-table';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { H1 } from '@/components/ui/h1';
 import { useMetricData } from '@/hooks/use-metric-data';
 import { corpusService } from '@/lib/corpus-service';
 import { keyboardService } from '@/lib/keyboard-service';
-import { Corpus, Keyboard } from '@/api';
+import { layoutService } from '@/lib/layout-service';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function MetricsPage() {
-  const { 
-    data, 
-    loading, 
+  const {
+    data,
+    loading,
     error,
     filters,
     columns,
     sortState,
     setCorpusFilter,
     setKeyboardFilter,
+    setLayoutFilter,
+    setTextFilter,
+    textFilter,
     onSortChange,
     onColumnVisibilityChange
   } = useMetricData();
 
   const [corpora, setCorpora] = useState<Corpus[]>([]);
   const [keyboards, setKeyboards] = useState<Keyboard[]>([]);
+  const [layouts, setLayouts] = useState<any[]>([]);
   const [loadingFilters, setLoadingFilters] = useState(true);
 
   // Load data for filters
@@ -34,12 +40,14 @@ export default function MetricsPage() {
     const loadFilterData = async () => {
       try {
         setLoadingFilters(true);
-        const [corporaData, keyboardsData] = await Promise.all([
+        const [corporaData, keyboardsData, layoutsData] = await Promise.all([
           corpusService.getCorpora(),
-          keyboardService.getKeyboards()
+          keyboardService.getKeyboards(),
+          layoutService.getLayouts()
         ]);
         setCorpora(corporaData);
         setKeyboards(keyboardsData);
+        setLayouts(layoutsData);
       } catch (err) {
         console.error('Error loading filter data:', err);
       } finally {
@@ -51,32 +59,26 @@ export default function MetricsPage() {
   }, []);
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex flex-col space-y-6">
+    <div className="container py-8">
+      <div className="flex flex-col space-y-4">
         {/* Header */}
-        <div className="flex items-center space-x-2">
-          <BarChart3 className="h-6 w-6" />
-          <h1 className="text-3xl font-bold">Метрики раскладок</h1>
-        </div>
+        <H1>Метрики раскладок</H1>
 
         {/* Filters */}
         {!loadingFilters && (
           <MetricsFilters
             corpora={corpora}
             keyboards={keyboards}
+            layouts={layouts}
             selectedCorpus={filters.corpus}
             selectedKeyboard={filters.keyboard}
+            selectedLayout={filters.layout}
             onCorpusChange={setCorpusFilter}
             onKeyboardChange={setKeyboardFilter}
+            onLayoutChange={setLayoutFilter}
+            selectedText={textFilter}
+            onTextChange={setTextFilter}
           />
-        )}
-
-        {/* Loading state */}
-        {loading && (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <span className="ml-2 text-muted-foreground">Загрузка метрик...</span>
-          </div>
         )}
 
         {/* Error */}
@@ -88,7 +90,7 @@ export default function MetricsPage() {
         )}
 
         {/* Table */}
-        {!loading && !error && data && data.length > 0 && (
+        {!loading && !error && data && (
           <MetricsTable
             metrics={data}
             columns={columns}
@@ -96,21 +98,6 @@ export default function MetricsPage() {
             onSortChange={onSortChange}
             onColumnVisibilityChange={onColumnVisibilityChange}
           />
-        )}
-
-        {/* No data */}
-        {!loading && !error && data && data.length === 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Метрики не найдены</CardTitle>
-              <CardDescription>
-                {filters.corpus !== 'all' || filters.keyboard !== 'all' 
-                  ? 'Попробуйте изменить параметры фильтрации'
-                  : 'Нет доступных метрик для отображения'
-                }
-              </CardDescription>
-            </CardHeader>
-          </Card>
         )}
       </div>
     </div>

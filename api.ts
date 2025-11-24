@@ -49,18 +49,30 @@ export interface Keyboard {
 export interface FilterState {
   corpus: string; // 'all' or corpus ID
   keyboard: string; // 'all' or keyboard ID
+  layout?: string; // 'all' or layout ID
 }
 
 export interface Metric {
   id: number;
-  corpus: number; // corpus ID
-  keyboard: number; // keyboard ID
-  layout: number; // layout ID
-  frequency_heatmap: string; // URL to the heatmap image
+  corpus: number;
+  keyboard: number;
+  layout: number;
 
-  // Main metrics for card display
-  travel_distance: number;
+  frequency_heatmap: string;
   
+  // Travel distance (u)
+  travel_distance: number;
+  travel_distance_finger_1: number;
+  travel_distance_finger_2: number;
+  travel_distance_finger_3: number;
+  travel_distance_finger_4: number;
+  travel_distance_finger_5: number;
+  travel_distance_finger_6: number;
+  travel_distance_finger_7: number;
+  travel_distance_finger_8: number;
+  travel_distance_finger_9: number;
+  travel_distance_finger_10: number;
+
   // Finger usage (%)
   finger_usage_1: number;
   finger_usage_2: number;
@@ -81,38 +93,30 @@ export interface Metric {
   row_usage_b: number;
   row_usage_a: number;
 
-  // SFB and SFS
+  // SFB (%)
   same_finger_bigram_frequency: number;
-  same_finger_skipgram_frequency: number;
+  same_finger_bigram_mean_distance: number;
 
-  // Scissors
+  // SFS (%)
+  same_finger_skipgram_frequency: number;
+  same_finger_skipgram_mean_distance: number;
+
+  // Scissors (%)
   half_scissor_bigram_frequency: number;
   full_scissor_bigram_frequency: number;
 
-  // Trigrams
+  half_scissor_skipgram_frequency: number;
+  full_scissor_skipgram_frequency: number;
+
+  // LSB (%)
+  lateral_stretch_bigram_frequency: number;
+  lateral_stretch_skipgram_frequency: number;
+
+  // Trigrams (%)
   roll_frequency: number;
   alternate_frequency: number;
   onehand_frequency: number;
   redirect_frequency: number;
-
-  // Other fields for API completeness
-  travel_distance_finger_1: number;
-  travel_distance_finger_2: number;
-  travel_distance_finger_3: number;
-  travel_distance_finger_4: number;
-  travel_distance_finger_5: number;
-  travel_distance_finger_6: number;
-  travel_distance_finger_7: number;
-  travel_distance_finger_8: number;
-  travel_distance_finger_9: number;
-  travel_distance_finger_10: number;
-
-  same_finger_bigram_mean_distance: number;
-  same_finger_skipgram_mean_distance: number;
-  half_scissor_skipgram_frequency: number;
-  full_scissor_skipgram_frequency: number;
-  lateral_stretch_bigram_frequency: number;
-  lateral_stretch_skipgram_frequency: number;
 }
 
 // Extended interface with related objects
