@@ -14,6 +14,15 @@ export interface Corpus {
   language: string;
 }
 
+export interface MetricExtremes {
+  [key: string]: {
+    min_value: number | null;
+    max_value: number | null;
+    min_object_url: string | null;
+    max_object_url: string | null;
+  };
+}
+
 export interface Layout {
   id: number;
   name: string;
@@ -45,11 +54,10 @@ export interface Keyboard {
   keyboard_preview: string;
 }
 
-// ... existing types ...
 export interface FilterState {
-  corpus: string; // 'all' or corpus ID
-  keyboard: string; // 'all' or keyboard ID
-  layout?: string; // 'all' or layout ID
+  corpus: string;
+  keyboard: string;
+  layout?: string;
 }
 
 export interface Metric {

@@ -76,7 +76,7 @@ export function SidebarNav() {
                                 variant={isActive ? "secondary" : "ghost"}
                                 className={cn(
                                   "w-full justify-start relative z-10 px-3 py-2 h-auto",
-                                  isActive && "bg-accent text-accent-foreground"
+                                  isActive && "bg-card text-accent-foreground"
                                 )}
                                 asChild
                               >

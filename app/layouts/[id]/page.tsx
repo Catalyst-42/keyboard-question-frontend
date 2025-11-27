@@ -1,45 +1,74 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Keyboard, Loader2, AlertCircle, Download, BarChart3 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  AlertCircle,
+  Download,
+  BarChart3,
+  ImageIcon,
+  FileText,
+  Layers2,
+  Thermometer,
+  Flame
+} from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import {
+  Alert,
+  AlertDescription
+} from '@/components/ui/alert';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Layout, LayoutPreview, Keyboard as KeyboardType, MetricWithRelations } from '@/api';
-import { LayoutNumericMetrics } from '@/components/layout-numeric-metrics';
+import { H1 } from '@/components/ui/h1';
+import {
+  Layout,
+  LayoutPreview,
+  Keyboard as KeyboardType,
+  MetricWithRelations
+} from '@/api';
+
+import { LayoutMetricsSelector } from '@/components/layout-metrics-selector';
 import { layoutService } from '@/lib/layout-service';
 import { keyboardService } from '@/lib/keyboard-service';
 import { metricService } from '@/lib/metric-service';
 import { corpusService } from '@/lib/corpus-service';
-import { LayoutMetricsSelector } from '@/components/layout-metrics-selector';
-import { LayoutMetricsCharts } from '@/components/layout-metrics-charts';
 import Image from 'next/image';
+import DownloadButton from '@/components/ui/download-button';
+import { LayoutMetrics } from '@/components/layout-metrics';
 
 export default function LayoutDetailPage() {
   const params = useParams();
   const layoutId = params.id as string;
-
   const [layout, setLayout] = useState<Layout | null>(null);
   const [previews, setPreviews] = useState<LayoutPreview[]>([]);
   const [keyboards, setKeyboards] = useState<KeyboardType[]>([]);
   const [corpora, setCorpora] = useState<any[]>([]);
   const [metrics, setMetrics] = useState<MetricWithRelations[]>([]);
-  const [selectedKeyboard, setSelectedKeyboard] = useState<string>('');
+  const [previewKeyboard, setPreviewKeyboard] = useState<string>('');
+  const [metricsKeyboard, setMetricsKeyboard] = useState<string>('');
   const [selectedCorpus, setSelectedCorpus] = useState<string>('');
   const [currentMetric, setCurrentMetric] = useState<MetricWithRelations | null>(null);
+  const [previewType, setPreviewType] = useState<'layout' | 'heatmap'>('layout');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load layout data
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         setError(null);
-
         const [layoutData, previewsData, keyboardsData, corporaData, metricsData] = await Promise.all([
           layoutService.getLayout(parseInt(layoutId)),
           layoutService.getLayoutPreviews(),
@@ -47,19 +76,18 @@ export default function LayoutDetailPage() {
           corpusService.getCorpora(),
           metricService.getMetrics()
         ]);
-
         setLayout(layoutData);
         setPreviews(previewsData);
         setKeyboards(keyboardsData);
         setCorpora(corporaData);
         setMetrics(metricsData);
-
-        // Choose default keyboard and corpus
         if (keyboardsData.length > 0) {
-          setSelectedKeyboard(keyboardsData[0].id.toString());
+          setPreviewKeyboard(keyboardsData[0].id.toString());
+          setMetricsKeyboard(keyboardsData[0].id.toString());
         }
         if (corporaData.length > 0) {
-          setSelectedCorpus(corporaData[0].id.toString());
+          const filtered = corporaData.filter(c => c.language === layoutData.language);
+          setSelectedCorpus(filtered[0]?.id.toString() || corporaData[0].id.toString());
         }
       } catch (err) {
         setError('Ошибка при загрузке данных раскладки');
@@ -68,46 +96,39 @@ export default function LayoutDetailPage() {
         setLoading(false);
       }
     };
-
     if (layoutId) {
       loadData();
     }
   }, [layoutId]);
 
-  // Find metric on selection change
   useEffect(() => {
-    if (selectedKeyboard && selectedCorpus && metrics.length > 0) {
-      const metric = metrics.find(m => 
+    if (metricsKeyboard && selectedCorpus && metrics.length > 0) {
+      const metric = metrics.find(m =>
         m.layout === parseInt(layoutId) &&
-        m.keyboard === parseInt(selectedKeyboard) &&
+        m.keyboard === parseInt(metricsKeyboard) &&
         m.corpus === parseInt(selectedCorpus)
       );
       setCurrentMetric(metric || null);
     }
-  }, [selectedKeyboard, selectedCorpus, metrics, layoutId]);
+  }, [metricsKeyboard, selectedCorpus, metrics, layoutId]);
 
-  // Get preview for selected keyboard
+  // Получаем превью для выбранной клавиатуры
   const selectedPreview = previews.find(
-    preview => preview.layout === parseInt(layoutId) && 
-               preview.keyboard === parseInt(selectedKeyboard)
+    preview => preview.layout === parseInt(layoutId) &&
+      preview.keyboard === parseInt(previewKeyboard)
   );
+  const heatmapUrl = currentMetric?.frequency_heatmap;
+  const filteredCorpora = corpora.filter(corpus => corpus.language === layout?.language);
 
   if (loading) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <span className="ml-2 text-muted-foreground">Загрузка раскладки...</span>
-        </div>
-      </div>
-    );
+    return <div className="container py-8"></div>;
   }
 
   if (error || !layout) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="container py-8">
         <Alert variant="destructive">
-          <AlertCircle className="h-5 w-5" />
+          <AlertCircle className="h-4 w-4" />
           <AlertDescription>
             {error || 'Раскладка не найдена'}
           </AlertDescription>
@@ -117,156 +138,172 @@ export default function LayoutDetailPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex flex-col space-y-8">
-        {/* Header and navigation */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Keyboard className="h-6 w-6" />
-            <h1 className="text-3xl font-bold">{layout.name}</h1>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            Язык: {layout.language}
-          </div>
-        </div>
+    <div className="container py-8">
+      <div className="flex flex-col space-y-4">
+        {/* Header */}
+        <H1>Раскладка {layout.name}</H1>
 
-        {/* Main content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left column - preview and info */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Layout preview */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Превью раскладки</CardTitle>
-                <CardDescription>
-                  {selectedKeyboard ? `На клавиатуре: ${keyboards.find(k => k.id === parseInt(selectedKeyboard))?.name}` : 'Выберите клавиатуру'}
-                </CardDescription>
+        {/* Preview and Properties Cards */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+          {/* Left: Preview Card (2/3) */}
+          <div className="xl:col-span-2">
+            <Card className="h-full">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <CardTitle>Превью</CardTitle>
+                <div className="flex gap-3">
+                  <Button
+                    variant={previewType === 'layout' ? 'default' : 'outline'}
+                    size="icon-sm"
+                    onClick={() => setPreviewType('layout')}
+                  >
+                    <Layers2 className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant={previewType === 'heatmap' ? 'default' : 'outline'}
+                    size="icon-sm"
+                    onClick={() => setPreviewType('heatmap')}
+                    disabled={!heatmapUrl}
+                  >
+                    <Flame className="h-4 w-4" />
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
-                {selectedPreview ? (
-                  <div className="relative aspect-video w-full overflow-hidden rounded-md border">
+                <div className="relative w-full overflow-hidden rounded-md aspect-23/9">
+                  {previewType === 'layout' && selectedPreview ? (
                     <Image
                       src={selectedPreview.layout_preview}
-                      alt={`Превью ${layout.name}`}
+                      alt={`Превью раскладки ${layout.name}`}
                       fill
                       className="object-contain"
+                      sizes="(max-width: 1024px) 100vw, 66vw"
                     />
-                  </div>
-                ) : (
-                  <div className="aspect-video flex items-center justify-center border rounded-md bg-muted/50">
-                    <p className="text-muted-foreground">
-                      Превью для выбранной клавиатуры не найдено
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Description */}
-            {layout.description && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Описание</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{layout.description}</p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-
-          {/* Right column - controls and info */}
-          <div className="space-y-6">
-            {/* Select keyboard for preview */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Форм-фактор</CardTitle>
-                <CardDescription>
-                  Выберите клавиатуру для отображения превью
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <Label htmlFor="keyboard-select">Клавиатура</Label>
-                  <Select value={selectedKeyboard} onValueChange={setSelectedKeyboard}>
-                    <SelectTrigger id="keyboard-select">
-                      <SelectValue placeholder="Выберите клавиатуру" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {keyboards.map((keyboard) => (
-                        <SelectItem key={keyboard.id} value={keyboard.id.toString()}>
-                          {keyboard.name} ({keyboard.form_factor})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  ) : previewType === 'heatmap' && heatmapUrl ? (
+                    <Image
+                      src={heatmapUrl}
+                      alt={`Тепловая карта ${layout.name}`}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 1024px) 100vw, 66vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
+                      <div className="text-center text-muted-foreground">
+                        <ImageIcon className="h-8 w-8 mx-auto mb-2" />
+                        <p className="text-sm">
+                          {previewType === 'layout'
+                            ? 'Превью недоступно для выбранной клавиатуры'
+                            : 'Тепловая карта недоступна'
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
+          </div>
 
-            {/* Model info */}
-            <Card>
+          {/* Right: Properties Card (1/3) */}
+          <div className="lg:col-span-1">
+            <Card className="h-full">
               <CardHeader>
-                <CardTitle>Файл модели</CardTitle>
+                <CardTitle>Свойства</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between p-3 border rounded-md">
-                  <div className="flex items-center gap-2">
-                    <Download className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-sm font-medium">
-                      {layout.layout_model.split('/').pop()}
-                    </span>
+              <CardContent className="space-y-4">
+
+                {/* Preview settings */}
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Клавиатура для аналитики</Label>
+                    <Select
+                      value={previewKeyboard}
+                      onValueChange={(value) => {
+                        setPreviewKeyboard(value);
+                        setMetricsKeyboard(value);
+                      }}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Выберите клавиатуру" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {keyboards.map((keyboard) => (
+                          <SelectItem key={keyboard.id} value={keyboard.id.toString()}>
+                            {keyboard.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <a
-                    href={layout.layout_model}
-                    download
-                    className="text-sm text-primary hover:underline"
-                  >
-                    Скачать
-                  </a>
+
+                  <div className="space-y-2">
+                    <Label>Корпус для аналитики</Label>
+                    <Select
+                      value={selectedCorpus}
+                      onValueChange={setSelectedCorpus}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Выберите корпус" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {filteredCorpora.map((corpus) => (
+                          <SelectItem key={corpus.id} value={corpus.id.toString()}>
+                            {corpus.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Model file */}
+                  <div className="pt-4 flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <FileText className="h-4 w-4 shrink-0" />
+                        <span className="font-medium">Файл модели</span>
+                      </div>
+                      <div className="text-muted-foreground ml-7">
+                        {layout.layout_model?.split('/').pop()}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center pl-3 self-stretch">
+                      <DownloadButton
+                        href={layout.layout_model}
+                        aria-label={`Download ${layout.name} model`}
+                      />
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Separator */}
-        <Separator />
+        {/* Description */}
+        {layout.description && (
+          <section className="prose prose-gray max-w-none mt-6">
+            <h2 className="text-lg font-semibold mb-4">Описание</h2>
+            <p className="leading-relaxed whitespace-pre-wrap">
+              {layout.description}
+            </p>
+          </section>
+        )}
 
-        {/* Metrics section */}
-        <div className="space-y-6">
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="h-6 w-6" />
-            <h2 className="text-2xl font-bold">Метрики раскладки</h2>
-          </div>
-
-          {/* Metrics parameters selection */}
-          <LayoutMetricsSelector
-            corpora={corpora}
-            keyboards={keyboards}
-            selectedCorpus={selectedCorpus}
-            selectedKeyboard={selectedKeyboard}
-            onCorpusChange={setSelectedCorpus}
-            onKeyboardChange={setSelectedKeyboard}
-          />
-
-          {/* Metrics charts */}
-          {currentMetric ? (
-            <>
-            <LayoutMetricsCharts metric={currentMetric} />
-            <LayoutNumericMetrics metric={currentMetric} />
-            </>
-          ) : (
-            <Card>
-              <CardContent className="py-8">
-                <div className="text-center text-muted-foreground">
-                  <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Метрики не найдены для выбранных параметров</p>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+        {/* Metrics Section */}
+        <h2 className="text-lg font-semibold mb-4">Метрики</h2>
+        {/* Metrics charts */}
+        {currentMetric ? (
+          <LayoutMetrics metric={currentMetric} />
+        ) : (
+          <Card>
+            <CardContent className="py-8">
+              <div className="text-center text-muted-foreground">
+                <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Метрики не найдены</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

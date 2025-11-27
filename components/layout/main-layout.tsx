@@ -1,7 +1,8 @@
 import { ThemeToggle } from '@/components/theme-toggle';
-import { SquareDot } from 'lucide-react';
+import { CircleDot, SquareDot } from 'lucide-react';
 import { MobileNav } from './mobile-nav';
 import { SidebarNav } from './sidebar-nav';
+import Link from 'next/link';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -16,12 +17,15 @@ export function MainLayout({ children }: MainLayoutProps) {
           <MobileNav />
 
           <div className="hidden md:block">
-            <div className="flex items-center px-4.5 gap-3">
-              <SquareDot className="h-4 w-4 text-md font-bold" />
+            <Link href="/" className="flex items-center px-4.5 gap-3">
+              {
+                Math.random() < 0.05 ?
+                  <CircleDot className="h-4 w-4 text-md font-bold" /> :
+                  <SquareDot className="h-4 w-4 text-md font-bold" />
+              }
               <span className="text-md font-bold">KeyboardQuestion</span>
-            </div>
+            </Link>
           </div>
-
           <div className="flex flex-1 items-center justify-end px-4">
             <ThemeToggle />
           </div>

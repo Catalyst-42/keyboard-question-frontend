@@ -1,36 +1,53 @@
 'use client';
 
-import { Keyboard, Loader2, AlertCircle, Eye } from 'lucide-react';
+import { Loader2, AlertCircle, Keyboard as KeyboardIcon, Languages, FileText, Image as ImageIcon } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { H1 } from '@/components/ui/h1';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLayoutData } from '@/hooks/use-layout-data';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
+import { useKeyboardData } from '@/hooks/use-keyboard-data';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useMemo, useState, useEffect } from 'react';
 
 export default function LayoutsPage() {
-  const { data, previews, loading, error } = useLayoutData();
+  const { data: layouts, previews, loading, error } = useLayoutData();
+  const { data: keyboards } = useKeyboardData();
+
+  const [search, setSearch] = useState('');
+  const [selectedKeyboard, setSelectedKeyboard] = useState<string>('');
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
+
+  // Set first keyboard as default when keyboards are loaded
+  useEffect(() => {
+    if (keyboards && keyboards.length > 0 && !selectedKeyboard) {
+      setSelectedKeyboard(keyboards[0].id.toString());
+    }
+  }, [keyboards, selectedKeyboard]);
+
+  const filteredLayouts = useMemo(() => {
+    if (!layouts) return [];
+
+    let filtered = layouts.filter((layout) =>
+      layout.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    // Filter by language
+    if (selectedLanguage !== 'all') {
+      filtered = filtered.filter((layout) => layout.language === selectedLanguage);
+    }
+
+    return filtered;
+  }, [layouts, search, selectedLanguage]);
 
   return (
     <div className="container py-8">
-      <div className="flex flex-col space-y-6">
+      <div className="flex flex-col space-y-4">
         {/* Header */}
-        <div className="flex items-center space-x-2">
-          <Keyboard className="h-6 w-6" />
-          <h1 className="text-3xl font-bold">Раскладки</h1>
-        </div>
-
-        {/* Loading state */}
-        {loading && (
-          <div className="flex items-center justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <span className="ml-2 text-muted-foreground">Загрузка раскладок...</span>
-          </div>
-        )}
+        <H1>Раскладки</H1>
 
         {/* Error */}
         {error && (
@@ -41,153 +58,171 @@ export default function LayoutsPage() {
         )}
 
         {/* Data */}
-        {!loading && !error && data && data.length > 0 && (
+        {!loading && !error && layouts && (
           <>
-            <LayoutsFilters layouts={data} />
-            <LayoutsList layouts={data} previews={previews || undefined} />
-          </>
-        )}
+            {/* Search and Filter Card */}
+            <Card>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Search input */}
+                  <div className="space-y-2">
+                    <Label htmlFor="search">Поиск</Label>
+                    <div className="relative flex items-center">
+                      <Input
+                        id="search"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Раскладка"
+                        className="w-full"
+                      />
+                      {search && (
+                        <button
+                          onClick={() => setSearch('')}
+                          className="absolute right-3 text-muted-foreground hover:text-foreground"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                  </div>
 
-        {/* No data */}
-        {!loading && !error && data && data.length === 0 && (
-          <div className="p-4 bg-muted rounded">Нет доступных раскладок</div>
+                  {/* Language filter */}
+                  <div className="space-y-2">
+                    <Label htmlFor="language-filter">Язык</Label>
+                    <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+                      <SelectTrigger id="language-filter" className="w-full">
+                        <SelectValue placeholder="Любой" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Любой</SelectItem>
+                        <SelectItem value="ru">Русский</SelectItem>
+                        <SelectItem value="en">Английский</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Keyboard selector for preview */}
+                  <div className="space-y-2">
+                    <Label htmlFor="keyboard-select">Превью</Label>
+                    <Select value={selectedKeyboard} onValueChange={setSelectedKeyboard}>
+                      <SelectTrigger id="keyboard-select" className="w-full">
+                        <SelectValue placeholder={keyboards?.length ? "Выберите клавиатуру" : "Загрузка..."} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {keyboards?.map((keyboard) => (
+                          <SelectItem key={keyboard.id} value={keyboard.id.toString()}>
+                            {keyboard.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Layouts Cards Grid */}
+            <div className="grid grid-cols-1 gap-4">
+              {filteredLayouts.length === 0 ? (
+                <div className="col-span-full text-center py-8 text-muted-foreground">
+                  {search || selectedLanguage !== 'all'
+                    ? 'Раскладки по вашему запросу не найдены'
+                    : 'Нет доступных раскладок'
+                  }
+                </div>
+              ) : (
+                filteredLayouts.map((layout) => (
+                  <LayoutCard
+                    key={layout.id}
+                    layout={layout}
+                    previews={previews || []}
+                    selectedKeyboard={selectedKeyboard}
+                  />
+                ))
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>
   );
 }
 
-function LayoutsFilters({ layouts }: { layouts: any[] }) {
-  const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState<'name' | 'language'>('name');
+function LayoutCard({ layout, previews, selectedKeyboard }: {
+  layout: any;
+  previews: any[];
+  selectedKeyboard: string;
+}) {
+  // Find preview for this layout and selected keyboard
+  const layoutPreview = useMemo(() => {
+    if (!selectedKeyboard) return null;
 
-  const languages = useMemo(() => {
-    const uniqueLanguages = Array.from(new Set(layouts.map(l => l.language).filter(Boolean)));
-    return uniqueLanguages.sort();
-  }, [layouts]);
+    const layoutPreviews = previews.filter(p => p.layout === layout.id);
+    return layoutPreviews.find(p => p.keyboard.toString() === selectedKeyboard);
+  }, [previews, layout.id, selectedKeyboard]);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Фильтрация и сортировка</CardTitle>
-      </CardHeader>
+    <Card className="flex flex-col h-full">
       <CardContent>
-        <div className="flex flex-col sm:flex-row gap-4">
-          {/* Search input */}
-          <div className="space-y-2 flex-1 min-w-[200px]">
-            <Label htmlFor="layout-search">Поиск по названию</Label>
-            <div className="relative flex items-center">
-              <Input
-                id="layout-search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Введите название раскладки"
-                className="w-full"
-              />
-              {search && (
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={() => setSearch('')}
-                  className="absolute right-1 h-6 w-6 p-0"
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* Layout Preview - 2/3 width */}
+          <div className="lg:col-span-2 flex items-center justify-center">
+            {layoutPreview ? (
+              <Link
+                href={`/layouts/${layout.id}`}
+                className="relative w-full aspect-23/9 rounded-md overflow-hidden"
+              >
+                <Image
+                  src={layoutPreview.layout_preview}
+                  alt={`Превью раскладки ${layout.name} на выбранной клавиатуре`}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                />
+              </Link>
+            ) : (
+              <div className="w-full aspect-video rounded-md border-2 border-dashed border-muted-foreground/25 flex items-center justify-center">
+                <div className="text-center text-muted-foreground">
+                  <ImageIcon className="h-8 w-8 mx-auto mb-2" />
+                  <p className="text-sm">Превью недоступно</p>
+                  <p className="text-xs">для выбранной клавиатуры</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Info */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Layout Name */}
+            <div>
+              <CardTitle className="text-lg mb-4">
+                <Link
+                  href={`/layouts/${layout.id}`}
                 >
-                  ×
-                </Button>
-              )}
+                  {layout.name}
+                </Link>
+              </CardTitle>
             </div>
-          </div>
 
-          {/* Language filter */}
-          <div className="space-y-2 flex-1 min-w-[200px]">
-            <Label htmlFor="language-filter">Язык</Label>
-            <Select value={sortBy} onValueChange={(value: 'name' | 'language') => setSortBy(value)}>
-              <SelectTrigger id="language-filter" className="w-full">
-                <SelectValue placeholder="Все языки" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Все языки</SelectItem>
-                {languages.map((language) => (
-                  <SelectItem key={language} value={language}>
-                    {language}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Sort by */}
-          <div className="space-y-2 flex-1 min-w-[200px]">
-            <Label htmlFor="sort-filter">Сортировка</Label>
-            <Select value={sortBy} onValueChange={(value: 'name' | 'language') => setSortBy(value)}>
-              <SelectTrigger id="sort-filter" className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="name">По названию</SelectItem>
-                <SelectItem value="language">По языку</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="space-y-4">
+              {/* Language */}
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    <Languages className="h-4 w-4 shrink-0" />
+                    <span className="font-medium">Язык</span>
+                  </div>
+                  <div className="text-muted-foreground ml-7">
+                    {layout.language === 'ru' ? 'Русский' :
+                      layout.language === 'en' ? 'Английский' :
+                        layout.language || 'Не указан'}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </CardContent>
     </Card>
-  );
-}
-
-function LayoutsList({ layouts, previews }: { layouts: any[]; previews?: any[] }) {
-  const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState<'name' | 'language'>('name');
-
-  const visible = useMemo(() => {
-    return layouts
-      .filter((l) => l.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => (sortBy === 'name' ? a.name.localeCompare(b.name) : (a.language || '').localeCompare(b.language || '')));
-  }, [layouts, search, sortBy]);
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
-          Найдено раскладок: {visible.length}
-        </div>
-      </div>
-
-      <Accordion type="multiple" defaultValue={visible.map((l) => String(l.id))}>
-        {visible.map((layout) => {
-          const layoutPreviews = (previews || []).filter((p) => p.layout === layout.id);
-          return (
-            <AccordionItem key={layout.id} value={String(layout.id)}>
-              <AccordionTrigger>
-                <div className="flex items-center gap-2 w-full">
-                  <span className="font-medium">{layout.name}</span>
-                  <span className="ml-auto text-sm text-muted-foreground">{layout.language}</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent>
-                <article className="prose-sm">
-                  {layout.description && <p className="text-muted-foreground">{layout.description}</p>}
-                  <ul className="space-y-1">
-                    <li className="text-sm">
-                      <span className="font-medium">Модель:</span> {layout.layout_model?.split('/').pop()}
-                    </li>
-                    <li className="text-sm">
-                      <span className="font-medium">Превью:</span> {layoutPreviews.length}
-                    </li>
-                  </ul>
-                  <div className="mt-3">
-                    <Link 
-                      href={`/layouts/${layout.id}`} 
-                      className="text-sm text-primary hover:underline font-medium"
-                    >
-                      Подробнее →
-                    </Link>
-                  </div>
-                </article>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
-    </div>
   );
 }

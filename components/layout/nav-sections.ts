@@ -14,9 +14,8 @@ export const navSections = [
       {
         title: 'Сравнить раскладки',
         href: '/compare-layouts',
-        icon: Icons.Layers2,
+        icon: Icons.Columns2,
       }
-
     ]
   },
   {
@@ -37,7 +36,7 @@ export const navSections = [
       {
         title: 'Раскладки',
         href: '/layouts',
-        icon: Icons.KeyRound,
+        icon: Icons.Layers2,
       },
       {
         title: 'Метрики',

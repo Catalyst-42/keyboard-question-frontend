@@ -68,7 +68,7 @@ export default function KeyboardDetailPage() {
         {/* Header */}
         <H1>Клавиатура {keyboard.name}</H1>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
           {/* Left: preview (2/3 on desktop, full width on mobile) */}
           <div className="xl:col-span-2">
             <Card className="h-full w-full">

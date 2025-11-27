@@ -126,7 +126,7 @@ export function MetricsTable({
                   <Button
                     variant="ghost"
                     onClick={() => handleSort(column.id)}
-                    className="h-auto p-0 font-medium hover:bg-transparent"
+                    className="p-0 font-medium hover:bg-transparent!"
                   >
                     {column.label}
                     {getSortIcon(column.id)}

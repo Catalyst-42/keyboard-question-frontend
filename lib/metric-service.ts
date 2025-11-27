@@ -1,5 +1,5 @@
 import { apiClient } from './api';
-import { Metric, MetricWithRelations } from '@/api';
+import { Metric, MetricExtremes, MetricWithRelations } from '@/api';
 
 export const metricService = {
   getMetrics: async (): Promise<MetricWithRelations[]> => {
@@ -9,6 +9,11 @@ export const metricService = {
 
   getMetric: async (id: number): Promise<MetricWithRelations> => {
     const response = await apiClient.get<MetricWithRelations>(`/metrics/${id}/`);
+    return response.data;
+  },
+
+  getMetricsExtremes: async (): Promise<MetricExtremes> => {
+    const response = await apiClient.get(`/metrics/extremes/`);
     return response.data;
   },
 };
