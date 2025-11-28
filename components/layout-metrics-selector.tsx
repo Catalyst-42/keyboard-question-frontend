@@ -23,7 +23,7 @@ export function LayoutMetricsSelector({
 }: LayoutMetricsSelectorProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg bg-muted/50">
-      {/* Выбор корпуса */}
+      {/* Corpora selector */}
       <div className="flex-1 space-y-2">
         <Label htmlFor="metrics-corpus-select">Корпус для метрик</Label>
         <Select value={selectedCorpus} onValueChange={onCorpusChange}>
@@ -40,7 +40,7 @@ export function LayoutMetricsSelector({
         </Select>
       </div>
 
-      {/* Выбор клавиатуры */}
+      {/* Keyboard selecter */}
       <div className="flex-1 space-y-2">
         <Label htmlFor="metrics-keyboard-select">Клавиатура для метрик</Label>
         <Select value={selectedKeyboard} onValueChange={onKeyboardChange}>

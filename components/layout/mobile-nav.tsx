@@ -116,7 +116,7 @@ export function MobileNav() {
                     </div>
                   </div>
 
-                  {/* Separator between sections (except for the last one) */}
+                  {/* Separator between sections */}
                   {!isLastSection && <Separator className="my-2" />}
                 </div>
               );
