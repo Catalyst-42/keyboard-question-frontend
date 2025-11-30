@@ -1,4 +1,4 @@
-import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { CircleDot, SquareDot } from 'lucide-react';
 import { MobileNav } from './mobile-nav';
 import { SidebarNav } from './sidebar-nav';

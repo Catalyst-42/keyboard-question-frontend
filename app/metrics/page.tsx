@@ -1,16 +1,15 @@
 'use client';
 
 import { Corpus, Keyboard } from '@/api';
-import { MetricsFilters } from '@/components/metrics-filter';
-import { MetricsTable } from '@/components/metrics-table';
+import { MetricsFilters } from '@/components/metric/metrics-filter';
+import { MetricsTable } from '@/components/metric/metrics-table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { H1 } from '@/components/ui/h1';
 import { useMetricData } from '@/hooks/use-metric-data';
 import { corpusService } from '@/lib/corpus-service';
 import { keyboardService } from '@/lib/keyboard-service';
 import { layoutService } from '@/lib/layout-service';
-import { AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function MetricsPage() {

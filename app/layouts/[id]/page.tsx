@@ -1,26 +1,23 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import {
-  AlertCircle,
-  Download,
-  BarChart3,
-  ImageIcon,
-  FileText,
-  Layers2,
-  Thermometer,
-  Flame
-} from 'lucide-react';
+  Keyboard as KeyboardType,
+  Layout,
+  LayoutPreview,
+  MetricWithRelations
+} from '@/api';
+import {
+  Alert,
+  AlertDescription
+} from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import {
-  Alert,
-  AlertDescription
-} from '@/components/ui/alert';
+import { H1 } from '@/components/ui/h1';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -28,25 +25,33 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { H1 } from '@/components/ui/h1';
 import {
-  Layout,
-  LayoutPreview,
-  Keyboard as KeyboardType,
-  MetricWithRelations
-} from '@/api';
+  AlertCircle,
+  BarChart3,
+  FileText,
+  Flame,
+  ImageIcon,
+  Layers2
+} from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { LayoutMetricsSelector } from '@/components/layout-metrics-selector';
-import { layoutService } from '@/lib/layout-service';
-import { keyboardService } from '@/lib/keyboard-service';
-import { metricService } from '@/lib/metric-service';
-import { corpusService } from '@/lib/corpus-service';
-import Image from 'next/image';
+import { InputStyle } from '@/components/metric/card-input-style';
+import { ListBigrams } from '@/components/metric/list-bigrams';
+import { ListFingerDistance } from '@/components/metric/list-finger-distance';
+import { ListFingerUsage } from '@/components/metric/list-finger-usage';
+import { ListSkipgrams } from '@/components/metric/list-skipgrams';
+import { ListTrigrams } from '@/components/metric/list-trigrams';
+import { PlotFingerDistance } from '@/components/metric/plot-finger-distance';
+import { PlotFingerUsage } from '@/components/metric/plot-finger-usage';
+import { PlotRowUsage } from '@/components/metric/plot-row-usage';
 import DownloadButton from '@/components/ui/download-button';
-import { LayoutMetrics } from '@/components/layout-metrics';
+import { useExtremesData } from '@/hooks/use-extemes-data';
+import { corpusService } from '@/lib/corpus-service';
+import { keyboardService } from '@/lib/keyboard-service';
+import { layoutService } from '@/lib/layout-service';
+import { metricService } from '@/lib/metric-service';
+import Image from 'next/image';
 
 export default function LayoutDetailPage() {
   const params = useParams();
@@ -63,6 +68,22 @@ export default function LayoutDetailPage() {
   const [previewType, setPreviewType] = useState<'layout' | 'heatmap'>('layout');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { data: extremes, loading: extremesLoading, error: extremesError } = useExtremesData();
+
+  // Helper function to get min/max values for a metric
+  const getMetricRange = (metricField: string) => {
+    if (!extremes || !extremes[metricField]) {
+      console.log(`Can't find metric range for ${metricField}`);
+      return { min: 0, max: 100 };
+    }
+
+    const extreme = extremes[metricField];
+    return {
+      min: extreme.min_value !== null ? extreme.min_value : 0,
+      max: extreme.max_value !== null ? extreme.max_value : 100
+    };
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -119,6 +140,57 @@ export default function LayoutDetailPage() {
   );
   const heatmapUrl = currentMetric?.frequency_heatmap;
   const filteredCorpora = corpora.filter(corpus => corpus.language === layout?.language);
+
+  // Finger usage data (1-10)
+  const fingerUsageData = currentMetric ? [
+    { finger: '1', usage: currentMetric.finger_usage_1, hand: 'left' },
+    { finger: '2', usage: currentMetric.finger_usage_2, hand: 'left' },
+    { finger: '3', usage: currentMetric.finger_usage_3, hand: 'left' },
+    { finger: '4', usage: currentMetric.finger_usage_4, hand: 'left' },
+    { finger: '5', usage: currentMetric.finger_usage_5, hand: 'left' },
+    { finger: '6', usage: currentMetric.finger_usage_6, hand: 'right' },
+    { finger: '7', usage: currentMetric.finger_usage_7, hand: 'right' },
+    { finger: '8', usage: currentMetric.finger_usage_8, hand: 'right' },
+    { finger: '9', usage: currentMetric.finger_usage_9, hand: 'right' },
+    { finger: '10', usage: currentMetric.finger_usage_10, hand: 'right' },
+  ] : [];
+
+  // Finger distance data (1-10)
+  const fingerDistanceData = currentMetric ? [
+    { finger: '1', distance: currentMetric.travel_distance_finger_1, hand: 'left' },
+    { finger: '2', distance: currentMetric.travel_distance_finger_2, hand: 'left' },
+    { finger: '3', distance: currentMetric.travel_distance_finger_3, hand: 'left' },
+    { finger: '4', distance: currentMetric.travel_distance_finger_4, hand: 'left' },
+    { finger: '5', distance: currentMetric.travel_distance_finger_5, hand: 'left' },
+    { finger: '6', distance: currentMetric.travel_distance_finger_6, hand: 'right' },
+    { finger: '7', distance: currentMetric.travel_distance_finger_7, hand: 'right' },
+    { finger: '8', distance: currentMetric.travel_distance_finger_8, hand: 'right' },
+    { finger: '9', distance: currentMetric.travel_distance_finger_9, hand: 'right' },
+    { finger: '10', distance: currentMetric.travel_distance_finger_10, hand: 'right' },
+  ] : [];
+
+  // Row usage data (transposed) with full labels
+  const rowUsageData = currentMetric ? [
+    { row: 'K', usage: currentMetric.row_usage_k },
+    { row: 'E', usage: currentMetric.row_usage_e },
+    { row: 'D', usage: currentMetric.row_usage_d },
+    { row: 'C', usage: currentMetric.row_usage_c },
+    { row: 'B', usage: currentMetric.row_usage_b },
+    { row: 'A', usage: currentMetric.row_usage_a },
+  ] : [];
+
+  // Hand balance calculation for usage
+  const leftHandUsage = fingerUsageData
+    .filter(item => item.hand === 'left')
+    .reduce((sum, item) => sum + item.usage, 0);
+
+  const rightHandUsage = fingerUsageData
+    .filter(item => item.hand === 'right')
+    .reduce((sum, item) => sum + item.usage, 0);
+
+  const totalUsage = leftHandUsage + rightHandUsage;
+  const leftHandUsagePercent = totalUsage > 0 ? (leftHandUsage / totalUsage) * 100 : 0;
+  const rightHandUsagePercent = totalUsage > 0 ? (rightHandUsage / totalUsage) * 100 : 0;
 
   if (loading) {
     return <div className="container py-8"></div>;
@@ -291,9 +363,60 @@ export default function LayoutDetailPage() {
 
         {/* Metrics Section */}
         <h2 className="text-lg font-semibold mb-4">Метрики</h2>
-        {/* Metrics charts */}
         {currentMetric ? (
-          <LayoutMetrics metric={currentMetric} />
+          <div className="space-y-4">
+            {/* First level - two cards (fingers) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <PlotFingerUsage
+                fingerUsageData={fingerUsageData}
+                leftHandUsagePercent={leftHandUsagePercent}
+                rightHandUsagePercent={rightHandUsagePercent}
+              />
+
+              <PlotFingerDistance
+                fingerDistanceData={fingerDistanceData}
+                totalTravelDistance={currentMetric.travel_distance}
+              />
+            </div>
+
+            {/* Finger usage */}
+            <div>
+              <h3 className="text-lg font-semibold">Метрики использования</h3>
+              <ListFingerUsage metric={currentMetric} getMetricRange={getMetricRange} />
+            </div>
+
+            {/* Finger distance */}
+            <div>
+              <h3 className="text-lg font-semibold">Метрики дистанции</h3>
+              <div className="text-sm font-semibold text-muted-foreground mb-2">Общее</div>
+              <ListFingerDistance metric={currentMetric} getMetricRange={getMetricRange} />
+            </div>
+
+            {/* Second level - two cards (rows and trigrams) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <PlotRowUsage rowUsageData={rowUsageData} />
+              <InputStyle metric={currentMetric} />
+            </div>
+
+            {/* Bigram and trigram metrics table */}
+            <div className="space-y-6">
+              {/* Bigram metrics */}
+              <div>
+                <h3 className="text-lg font-semibold">Парные метрики</h3>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <ListBigrams metric={currentMetric} getMetricRange={getMetricRange} />
+                  <ListSkipgrams metric={currentMetric} getMetricRange={getMetricRange} />
+                </div>
+              </div>
+
+              {/* Trigram metrics */}
+              <div>
+                <h3 className="text-lg font-semibold">Триграммные метрики</h3>
+                <div className="text-sm font-semibold text-muted-foreground mb-2">Комплексный анализ</div>
+                <ListTrigrams metric={currentMetric} getMetricRange={getMetricRange} />
+              </div>
+            </div>
+          </div>
         ) : (
           <Card>
             <CardContent className="py-8">

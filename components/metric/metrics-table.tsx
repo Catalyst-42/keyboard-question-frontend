@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { formatDistance, formatPercentage } from '@/lib/utils';
 import { ChevronDown, ChevronsUpDown, ChevronUp, Eye } from 'lucide-react';
 import Link from 'next/link';
 
@@ -26,7 +27,6 @@ interface MetricsTableProps {
   onSortChange: (sort: SortState) => void;
   onColumnVisibilityChange: (columnId: string, isVisible: boolean) => void;
 }
-
 export function MetricsTable({
   metrics,
   columns,
@@ -35,16 +35,6 @@ export function MetricsTable({
   onColumnVisibilityChange,
 }: MetricsTableProps) {
   const visibleColumns = columns.filter(col => col.isVisible);
-
-  // Functions for formatting values
-  const formatPercentage = (value: number): string => {
-    return `${(value * 100).toFixed(2)}%`;
-  };
-
-  const formatDistance = (value: number): string => {
-    return value.toFixed(3);
-  };
-
   const formatValue = (value: any, column: MetricColumn): string => {
     if (typeof value === 'number') {
       if (column.id.includes('usage') || column.id.includes('frequency')) {
