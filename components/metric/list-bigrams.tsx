@@ -8,14 +8,20 @@ import { MetricCard } from './metric-card';
 interface BigramsProps {
   metric: MetricWithRelations;
   getMetricRange: (metricField: string) => { min: number; max: number };
+  // Optional reference metric for diff mode
+  referenceMetric?: MetricWithRelations | null;
+  diffMode?: boolean;
+  singleColumn?: boolean;
 }
 
-export function ListBigrams({ metric, getMetricRange }: BigramsProps) {
+export function ListBigrams({ metric, getMetricRange, referenceMetric = null, diffMode = false, singleColumn = false }: BigramsProps) {
+  const colClass = 'grid-cols-1';
+
   return (
     <div className="space-y-4">
       <div className="text-sm font-semibold text-muted-foreground mb-2">Биграммы</div>
-
-      <MetricCard
+      <div className={`grid ${colClass} gap-4`}>
+        <MetricCard
         title="Однопальцевые биграммы"
         description="Один палец для пары символов"
         value={formatPercentage(metric.same_finger_bigram_frequency)}
@@ -23,6 +29,9 @@ export function ListBigrams({ metric, getMetricRange }: BigramsProps) {
         min={getMetricRange('same_finger_bigram_frequency').min}
         max={getMetricRange('same_finger_bigram_frequency').max}
         current={metric.same_finger_bigram_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.same_finger_bigram_frequency : undefined}
+          moreIsWorse
       />
 
       <MetricCard
@@ -33,6 +42,9 @@ export function ListBigrams({ metric, getMetricRange }: BigramsProps) {
         min={getMetricRange('full_scissor_bigram_frequency').min}
         max={getMetricRange('full_scissor_bigram_frequency').max}
         current={metric.full_scissor_bigram_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.full_scissor_bigram_frequency : undefined}
+          moreIsWorse
       />
 
       <MetricCard
@@ -43,6 +55,9 @@ export function ListBigrams({ metric, getMetricRange }: BigramsProps) {
         min={getMetricRange('half_scissor_bigram_frequency').min}
         max={getMetricRange('half_scissor_bigram_frequency').max}
         current={metric.half_scissor_bigram_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.half_scissor_bigram_frequency : undefined}
+          moreIsWorse
       />
 
       <MetricCard
@@ -53,7 +68,11 @@ export function ListBigrams({ metric, getMetricRange }: BigramsProps) {
         min={getMetricRange('lateral_stretch_bigram_frequency').min}
         max={getMetricRange('lateral_stretch_bigram_frequency').max}
         current={metric.lateral_stretch_bigram_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.lateral_stretch_bigram_frequency : undefined}
+          moreIsWorse
       />
+      </div>
     </div>
   );
 }

@@ -8,9 +8,14 @@ import { MetricCard } from './metric-card';
 interface DistanceMetricsProps {
   metric: MetricWithRelations;
   getMetricRange: (metricField: string) => { min: number; max: number };
+  referenceMetric?: MetricWithRelations | null;
+  diffMode?: boolean;
+  singleColumn?: boolean;
 }
 
-export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsProps) {
+export function ListFingerDistance({ metric, getMetricRange, referenceMetric = null, diffMode = false, singleColumn = false }: DistanceMetricsProps) {
+  const twoColClass = singleColumn ? '' : 'lg:grid-cols-2';
+
   return (
     <div className="space-y-6">
       {/* Total */}
@@ -23,15 +28,18 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
           min={getMetricRange('travel_distance').min}
           max={getMetricRange('travel_distance').max}
           current={metric.travel_distance}
+          diffMode={diffMode}
+          referenceValue={referenceMetric ? referenceMetric.travel_distance : undefined}
+          moreIsWorse
         />
       </div>
 
       {/* Travel distance */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className={`grid grid-cols-1 ${twoColClass} gap-4`}>
         {/* Left hand */}
         <div className="space-y-4">
           <div className="text-sm font-semibold text-muted-foreground mb-2">Левая рука</div>
-          <div className="space-y-2">
+          <div className="space-y-4">
             <MetricCard
               title="Мизинец"
               description="Расстояние для левого мизинца"
@@ -40,6 +48,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_1').min}
               max={getMetricRange('travel_distance_finger_1').max}
               current={metric.travel_distance_finger_1}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_1 : undefined}
+              moreIsWorse
             />
 
             <MetricCard
@@ -50,6 +61,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_2').min}
               max={getMetricRange('travel_distance_finger_2').max}
               current={metric.travel_distance_finger_2}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_2 : undefined}
+          moreIsWorse
             />
 
             <MetricCard
@@ -60,6 +74,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_3').min}
               max={getMetricRange('travel_distance_finger_3').max}
               current={metric.travel_distance_finger_3}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_3 : undefined}
+          moreIsWorse
             />
 
             <MetricCard
@@ -70,6 +87,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_4').min}
               max={getMetricRange('travel_distance_finger_4').max}
               current={metric.travel_distance_finger_4}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_4 : undefined}
+          moreIsWorse
             />
 
             {metric.travel_distance_finger_5 !== 0 || metric.travel_distance_finger_5 !== metric.travel_distance_finger_6 && (
@@ -81,6 +101,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
                 min={getMetricRange('travel_distance_finger_5').min}
                 max={getMetricRange('travel_distance_finger_5').max}
                 current={metric.travel_distance_finger_5}
+                diffMode={diffMode}
+                referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_5 : undefined}
+          moreIsWorse
               />
             )}
           </div>
@@ -89,7 +112,7 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
         {/* Right hand */}
         <div className="space-y-4">
           <div className="text-sm font-semibold text-muted-foreground mb-2">Левая рука</div>
-          <div className="space-y-2">
+          <div className="space-y-4">
             <MetricCard
               title="Мизинец"
               description="Расстояние для правого мизинца"
@@ -98,6 +121,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_10').min}
               max={getMetricRange('travel_distance_finger_10').max}
               current={metric.travel_distance_finger_10}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_10 : undefined}
+          moreIsWorse
             />
 
             <MetricCard
@@ -108,6 +134,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_9').min}
               max={getMetricRange('travel_distance_finger_9').max}
               current={metric.travel_distance_finger_9}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_9 : undefined}
+          moreIsWorse
             />
 
             <MetricCard
@@ -118,6 +147,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_8').min}
               max={getMetricRange('travel_distance_finger_8').max}
               current={metric.travel_distance_finger_8}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_8 : undefined}
+          moreIsWorse
             />
 
             <MetricCard
@@ -128,6 +160,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
               min={getMetricRange('travel_distance_finger_7').min}
               max={getMetricRange('travel_distance_finger_7').max}
               current={metric.travel_distance_finger_7}
+              diffMode={diffMode}
+              referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_7 : undefined}
+          moreIsWorse
             />
 
             {metric.travel_distance_finger_6 !== 0 || metric.travel_distance_finger_5 !== metric.travel_distance_finger_6 && (
@@ -139,6 +174,9 @@ export function ListFingerDistance({ metric, getMetricRange }: DistanceMetricsPr
                 min={getMetricRange('travel_distance_finger_6').min}
                 max={getMetricRange('travel_distance_finger_6').max}
                 current={metric.travel_distance_finger_6}
+                diffMode={diffMode}
+                referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_6 : undefined}
+          moreIsWorse
               />
             )}
           </div>

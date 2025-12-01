@@ -36,25 +36,7 @@ Now app should be available at `localhost:3000`.
 TODO
 
 - [x] Normal readme
-- [ ] Images
-- [ ] Search in data
-- [ ] Make info pages
-  - Pages
-    - Hello
-    - Database
-      - Corpora
-      - Keyboards
-      - Layouts
-      - Metrics
-    - Info
-      - Why switching layouts
-      - Recommended layouts
-      - Key remapping software
-    - Reference
-      - Ngram analysis
-        - Unigrams, bigrams and trigrams
-      - What keyboard defines
-      - What layout defines
-      - Metrics
-        - Each metric with best layout for it
+- [ ] Folded header for metric info
+- [ ] Pages about system
+- [ ] Preffered direction for metric-card in diff
 -->

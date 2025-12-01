@@ -8,11 +8,15 @@ import { MetricCard } from './metric-card';
 interface TrigramsProps {
   metric: MetricWithRelations;
   getMetricRange: (metricField: string) => { min: number; max: number };
+  referenceMetric?: MetricWithRelations | null;
+  diffMode?: boolean;
+  singleColumn?: boolean;
 }
+export function ListTrigrams({ metric, getMetricRange, referenceMetric = null, diffMode = false, singleColumn = false }: TrigramsProps) {
+  const twoColClass = singleColumn ? '' : 'lg:grid-cols-2';
 
-export function ListTrigrams({ metric, getMetricRange }: TrigramsProps) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className={`grid grid-cols-1 ${twoColClass} gap-4`}>
       <MetricCard
         title="Роллинг"
         description="Ролл на два символа из тройки"
@@ -21,6 +25,8 @@ export function ListTrigrams({ metric, getMetricRange }: TrigramsProps) {
         min={getMetricRange('roll_frequency').min}
         max={getMetricRange('roll_frequency').max}
         current={metric.roll_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.roll_frequency : undefined}
       />
 
       <MetricCard
@@ -31,6 +37,8 @@ export function ListTrigrams({ metric, getMetricRange }: TrigramsProps) {
         min={getMetricRange('alternate_frequency').min}
         max={getMetricRange('alternate_frequency').max}
         current={metric.alternate_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.alternate_frequency : undefined}
       />
 
       <MetricCard
@@ -41,6 +49,8 @@ export function ListTrigrams({ metric, getMetricRange }: TrigramsProps) {
         min={getMetricRange('onehand_frequency').min}
         max={getMetricRange('onehand_frequency').max}
         current={metric.onehand_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.onehand_frequency : undefined}
       />
 
       <MetricCard
@@ -51,6 +61,8 @@ export function ListTrigrams({ metric, getMetricRange }: TrigramsProps) {
         min={getMetricRange('redirect_frequency').min}
         max={getMetricRange('redirect_frequency').max}
         current={metric.redirect_frequency}
+        diffMode={diffMode}
+        referenceValue={referenceMetric ? referenceMetric.redirect_frequency : undefined}
       />
     </div>
   );

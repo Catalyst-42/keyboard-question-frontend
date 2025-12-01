@@ -367,22 +367,16 @@ export default function LayoutDetailPage() {
           <div className="space-y-4">
             {/* First level - two cards (fingers) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <PlotFingerDistance
+                fingerDistanceData={fingerDistanceData}
+                totalTravelDistance={currentMetric.travel_distance}
+              />
+
               <PlotFingerUsage
                 fingerUsageData={fingerUsageData}
                 leftHandUsagePercent={leftHandUsagePercent}
                 rightHandUsagePercent={rightHandUsagePercent}
               />
-
-              <PlotFingerDistance
-                fingerDistanceData={fingerDistanceData}
-                totalTravelDistance={currentMetric.travel_distance}
-              />
-            </div>
-
-            {/* Finger usage */}
-            <div>
-              <h3 className="text-lg font-semibold">Метрики использования</h3>
-              <ListFingerUsage metric={currentMetric} getMetricRange={getMetricRange} />
             </div>
 
             {/* Finger distance */}
@@ -390,6 +384,12 @@ export default function LayoutDetailPage() {
               <h3 className="text-lg font-semibold">Метрики дистанции</h3>
               <div className="text-sm font-semibold text-muted-foreground mb-2">Общее</div>
               <ListFingerDistance metric={currentMetric} getMetricRange={getMetricRange} />
+            </div>
+
+            {/* Finger usage */}
+            <div>
+              <h3 className="text-lg font-semibold">Метрики использования</h3>
+              <ListFingerUsage metric={currentMetric} getMetricRange={getMetricRange} />
             </div>
 
             {/* Second level - two cards (rows and trigrams) */}

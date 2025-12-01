@@ -1,4 +1,3 @@
-// Interface for metric card props
 interface MetricCardProps {
   title: string;
   description: string;
@@ -7,12 +6,11 @@ interface MetricCardProps {
   min?: number;
   max?: number;
   current?: number;
-  // Diff mode props
   diffMode?: boolean;
   referenceValue?: number;
+  moreIsWorse?: boolean;
 }
 
-// Metric card component with progress bar and diff support
 export function MetricCard({ 
   title, 
   description, 
@@ -22,56 +20,68 @@ export function MetricCard({
   max = 1,
   current,
   diffMode = false,
-  referenceValue
+  referenceValue,
+  moreIsWorse = false
 }: MetricCardProps) {
-  // Calculate progress for background
   const progress = current !== undefined ? 
     Math.max(0, Math.min(1, ((current - min) / (max - min)))) : 
     undefined;
 
-  // Check if current value is extreme (min or max)
-  const isExtremeValue = current !== undefined && (current === min || current === max);
+  const isMinValue = current !== undefined && current === min;
+  const isMaxValue = current !== undefined && current === max;
+  const isExtremeValue = isMinValue || isMaxValue;
 
-  // Calculate diff values
   const diffValue = diffMode && current !== undefined && referenceValue !== undefined ? 
     current - referenceValue : 0;
-  
-  const diffPercentage = diffMode && referenceValue !== undefined && referenceValue !== 0 ? 
-    ((diffValue / referenceValue) * 100) : 0;
 
-  // Determine background color based on diff
-  const getProgressBarColor = () => {
-    if (!diffMode || diffValue === 0) return 'bg-primary/15'; // Default blue for equal values/no diff
-    return diffValue > 0 ? 'bg-green-500/20' : 'bg-red-500/20';
+  const getExtremeColor = () => {
+    if (!isExtremeValue) return '';
+    
+    if (isMinValue) {
+      return moreIsWorse ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500';
+    }
+    
+    if (isMaxValue) {
+      return moreIsWorse ? 'ring-2 ring-red-500' : 'ring-2 ring-green-500';
+    }
+    
+    return 'ring-2 ring-primary';
   };
 
-  // Format diff value for display
+  const getProgressBarColor = () => {
+    if (!diffMode || diffValue === 0) return 'bg-primary/15';
+    
+    const shouldBeGreen = moreIsWorse ? diffValue < 0 : diffValue > 0;
+    return shouldBeGreen ? 'bg-green-500/20' : 'bg-red-500/20';
+  };
+
   const formatDiffValue = () => {
     if (!diffMode || diffValue === 0) return null;
     
     const absDiff = Math.abs(diffValue);
     const sign = diffValue > 0 ? '+' : '-';
     
-    // Check if it's a percentage value (between 0 and 1)
     if (current !== undefined && current <= 1 && referenceValue !== undefined && referenceValue <= 1) {
-      return `${sign}${formatPercentage(absDiff)}`;
+      return `${sign}${(absDiff * 100).toFixed(1)}%`;
     }
     
-    // For distance values
     return `${sign}${absDiff.toFixed(1)}u`;
   };
 
-  // Helper function to format percentage (similar to your existing formatPercentage)
-  const formatPercentage = (value: number) => {
-    return `${(value * 100).toFixed(1)}%`;
+  const diffDisplay = formatDiffValue();
+
+  const getDiffColorClass = () => {
+    if (!diffMode || diffValue === 0) return 'text-muted-foreground';
+    
+    const shouldBeGreen = moreIsWorse ? diffValue < 0 : diffValue > 0;
+    return shouldBeGreen ? 'text-green-600' : 'text-red-600';
   };
 
   return (
     <div className={`
       relative flex items-center justify-between p-3 rounded-lg bg-muted/30 overflow-hidden
-      ${isExtremeValue ? 'ring-2 ring-primary' : ''}
+      ${getExtremeColor()}
     `}>
-      {/* Progress bar as background with diff-based color */}
       {progress !== undefined && (
         <div 
           className={`absolute left-0 top-0 h-full transition-all duration-300 ${getProgressBarColor()}`}
@@ -79,24 +89,33 @@ export function MetricCard({
         />
       )}
 
-      {/* Content */}
       <div className="flex items-center gap-3 relative z-10 flex-1 min-w-0">
-        <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
+        <Icon className="h-4 w-4 text-muted-foreground shrink-0 hidden sm:block" />
         <div className="min-w-0 flex-1">
           <div className="text-sm font-medium truncate">{title}</div>
-          <div className="text-xs text-muted-foreground truncate">{description}</div>
+          
+          <div className="hidden sm:block text-xs text-muted-foreground truncate">
+            {description}
+          </div>
+          
+          <div className="sm:hidden flex justify-between items-center text-xs text-muted-foreground">
+            <span className="truncate">{value}</span>
+            {diffMode && diffDisplay && (
+              <span className={`shrink-0 ml-2 font-mono ${getDiffColorClass()}`}>
+                {diffDisplay}
+              </span>
+            )}
+          </div>
         </div>
       </div>
       
-      {/* Value section */}
-      <div className="flex flex-col items-end relative z-10 shrink-0 ml-2">
+      <div className="hidden sm:flex flex-col items-end relative z-10 shrink-0 ml-2">
         <div className="text-sm font-mono font-semibold text-foreground">
           {value}
         </div>
-        {/* Diff value - only shown in diff mode when there's a difference */}
-        {diffMode && diffValue !== 0 && (
-          <div className="text-xs text-muted-foreground font-mono">
-            {formatDiffValue()}
+        {diffMode && diffDisplay && (
+          <div className={`text-xs font-mono`}>
+            {diffDisplay}
           </div>
         )}
       </div>
