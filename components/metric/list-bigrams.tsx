@@ -8,13 +8,12 @@ import { MetricCard } from './metric-card';
 interface BigramsProps {
   metric: MetricWithRelations;
   getMetricRange: (metricField: string) => { min: number; max: number };
-  // Optional reference metric for diff mode
   referenceMetric?: MetricWithRelations | null;
   diffMode?: boolean;
   singleColumn?: boolean;
 }
 
-export function ListBigrams({ metric, getMetricRange, referenceMetric = null, diffMode = false, singleColumn = false }: BigramsProps) {
+export function ListBigrams({ metric, getMetricRange, referenceMetric = null, diffMode = false }: BigramsProps) {
   const colClass = 'grid-cols-1';
 
   return (
@@ -31,11 +30,10 @@ export function ListBigrams({ metric, getMetricRange, referenceMetric = null, di
         current={metric.same_finger_bigram_frequency}
         diffMode={diffMode}
         referenceValue={referenceMetric ? referenceMetric.same_finger_bigram_frequency : undefined}
-          moreIsWorse
       />
 
       <MetricCard
-        title="Биграммные ножницы"
+        title="Ножницы биграмм"
         description="Расстояние между парой больше 2u"
         value={formatPercentage(metric.full_scissor_bigram_frequency)}
         icon={Scissors}
@@ -44,11 +42,10 @@ export function ListBigrams({ metric, getMetricRange, referenceMetric = null, di
         current={metric.full_scissor_bigram_frequency}
         diffMode={diffMode}
         referenceValue={referenceMetric ? referenceMetric.full_scissor_bigram_frequency : undefined}
-          moreIsWorse
       />
 
       <MetricCard
-        title="Биграммные полу-ножницы"
+        title="Полу-ножницы биграмм"
         description="Расстояние между парой больше 1u"
         value={formatPercentage(metric.half_scissor_bigram_frequency)}
         icon={Scissors}
@@ -57,11 +54,10 @@ export function ListBigrams({ metric, getMetricRange, referenceMetric = null, di
         current={metric.half_scissor_bigram_frequency}
         diffMode={diffMode}
         referenceValue={referenceMetric ? referenceMetric.half_scissor_bigram_frequency : undefined}
-          moreIsWorse
       />
 
       <MetricCard
-        title="Биграммное боковое растяжение"
+        title="Боковое растяжение биграмм"
         description="Горизонтальное растяжение"
         value={formatPercentage(metric.lateral_stretch_bigram_frequency)}
         icon={MoveHorizontal}
@@ -70,7 +66,6 @@ export function ListBigrams({ metric, getMetricRange, referenceMetric = null, di
         current={metric.lateral_stretch_bigram_frequency}
         diffMode={diffMode}
         referenceValue={referenceMetric ? referenceMetric.lateral_stretch_bigram_frequency : undefined}
-          moreIsWorse
       />
       </div>
     </div>

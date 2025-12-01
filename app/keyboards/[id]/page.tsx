@@ -84,7 +84,7 @@ export default function KeyboardDetailPage() {
                       fill
                       className="object-contain"
                       priority
-                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      sizes="(max-width: 2048px) 100vw, 66vw"
                     />
                   </div>
                 )}

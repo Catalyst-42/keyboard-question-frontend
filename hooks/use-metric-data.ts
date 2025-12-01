@@ -171,7 +171,7 @@ const defaultColumns: MetricColumn[] = [
   {
     id: 'row_usage_c',
     label: 'Домашний ряд C',
-    isVisible: true,
+    isVisible: false,
     isNumeric: true
   },
   {

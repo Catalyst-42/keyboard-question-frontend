@@ -248,7 +248,7 @@ export default function LayoutDetailPage() {
                       alt={`Превью раскладки ${layout.name}`}
                       fill
                       className="object-contain"
-                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      sizes="(max-width: 2048px) 100vw, 66vw"
                     />
                   ) : previewType === 'heatmap' && heatmapUrl ? (
                     <Image
@@ -256,7 +256,7 @@ export default function LayoutDetailPage() {
                       alt={`Тепловая карта ${layout.name}`}
                       fill
                       className="object-contain"
-                      sizes="(max-width: 1024px) 100vw, 66vw"
+                      sizes="(max-width: 2048px) 100vw, 66vw"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-muted/50">

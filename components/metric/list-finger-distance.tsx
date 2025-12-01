@@ -30,7 +30,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
           current={metric.travel_distance}
           diffMode={diffMode}
           referenceValue={referenceMetric ? referenceMetric.travel_distance : undefined}
-          moreIsWorse
         />
       </div>
 
@@ -50,7 +49,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_1}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_1 : undefined}
-              moreIsWorse
             />
 
             <MetricCard
@@ -63,7 +61,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_2}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_2 : undefined}
-          moreIsWorse
             />
 
             <MetricCard
@@ -76,7 +73,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_3}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_3 : undefined}
-          moreIsWorse
             />
 
             <MetricCard
@@ -89,7 +85,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_4}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_4 : undefined}
-          moreIsWorse
             />
 
             {metric.travel_distance_finger_5 !== 0 || metric.travel_distance_finger_5 !== metric.travel_distance_finger_6 && (
@@ -103,7 +98,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
                 current={metric.travel_distance_finger_5}
                 diffMode={diffMode}
                 referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_5 : undefined}
-          moreIsWorse
               />
             )}
           </div>
@@ -123,7 +117,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_10}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_10 : undefined}
-          moreIsWorse
             />
 
             <MetricCard
@@ -136,7 +129,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_9}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_9 : undefined}
-          moreIsWorse
             />
 
             <MetricCard
@@ -149,7 +141,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_8}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_8 : undefined}
-          moreIsWorse
             />
 
             <MetricCard
@@ -162,7 +153,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
               current={metric.travel_distance_finger_7}
               diffMode={diffMode}
               referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_7 : undefined}
-          moreIsWorse
             />
 
             {metric.travel_distance_finger_6 !== 0 || metric.travel_distance_finger_5 !== metric.travel_distance_finger_6 && (
@@ -176,7 +166,6 @@ export function ListFingerDistance({ metric, getMetricRange, referenceMetric = n
                 current={metric.travel_distance_finger_6}
                 diffMode={diffMode}
                 referenceValue={referenceMetric ? referenceMetric.travel_distance_finger_6 : undefined}
-          moreIsWorse
               />
             )}
           </div>
