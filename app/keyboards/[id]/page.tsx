@@ -4,7 +4,8 @@ import { Keyboard } from '@/api';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DownloadButton from '@/components/ui/download-button';
-import { H1 } from '@/components/ui/h1';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
+import { H1 } from '@/components/ui/typography';
 import { keyboardService } from '@/lib/keyboard-service';
 import { AlertCircle, FileText, Monitor, Rows3, SquareDot } from 'lucide-react';
 import Image from 'next/image';
@@ -42,12 +43,6 @@ export default function KeyboardDetailPage() {
       loadData();
     }
   }, [keyboardId]);
-
-  if (loading) {
-    return (
-      <></>
-    );
-  }
 
   if (error || !keyboard) {
     return (
@@ -162,22 +157,11 @@ export default function KeyboardDetailPage() {
         {keyboard.description && (
           <section className="prose prose-gray max-w-none mt-6">
             <h2 className="text-lg font-semibold mb-4">Описание</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              {keyboard.description}
-            </p>
+            <MarkdownRenderer>
+              {keyboard.description || "Описание отсутствует"}
+            </MarkdownRenderer>
           </section>
         )}
-
-        {/* Features */}
-        {keyboard.features && (
-          <section className="prose prose-gray max-w-none mt-6">
-            <h2 className="text-lg font-semibold mb-4">Особенности</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              {keyboard.features}
-            </p>
-          </section>
-        )}
-
       </div>
     </div>
   );

@@ -5,13 +5,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { H1 } from '@/components/ui/h1';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLayoutData } from '@/hooks/use-layout-data';
 import { useKeyboardData } from '@/hooks/use-keyboard-data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMemo, useState, useEffect } from 'react';
+import { H1 } from '@/components/ui/typography';
 
 export default function LayoutsPage() {
   const { data: layouts, previews, loading, error } = useLayoutData();
@@ -74,6 +74,8 @@ export default function LayoutsPage() {
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Раскладка"
                         className="w-full"
+                        autoCorrect="off"
+                        spellCheck="false"
                       />
                       {search && (
                         <button
@@ -198,6 +200,7 @@ function LayoutCard({ layout, previews, selectedKeyboard }: {
               <CardTitle className="text-lg mb-4">
                 <Link
                   href={`/layouts/${layout.id}`}
+                  className="hover:underline" 
                 >
                   {layout.name}
                 </Link>

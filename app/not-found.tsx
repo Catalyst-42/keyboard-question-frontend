@@ -11,7 +11,7 @@ export default function NotFound() {
 
       <div className="mt-6">
         <Button asChild>
-          <Link href="/">На главную</Link>
+          <Link href="/" className="hover:underline">На главную</Link>
         </Button>
       </div>
     </div>

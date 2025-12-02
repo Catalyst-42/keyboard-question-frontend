@@ -16,7 +16,6 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { H1 } from '@/components/ui/h1';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -52,6 +51,9 @@ import { keyboardService } from '@/lib/keyboard-service';
 import { layoutService } from '@/lib/layout-service';
 import { metricService } from '@/lib/metric-service';
 import Image from 'next/image';
+import PreviewCard from '@/components/layout/preview-card';
+import { H1 } from '@/components/ui/typography';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 export default function LayoutDetailPage() {
   const params = useParams();
@@ -65,7 +67,7 @@ export default function LayoutDetailPage() {
   const [metricsKeyboard, setMetricsKeyboard] = useState<string>('');
   const [selectedCorpus, setSelectedCorpus] = useState<string>('');
   const [currentMetric, setCurrentMetric] = useState<MetricWithRelations | null>(null);
-  const [previewType, setPreviewType] = useState<'layout' | 'heatmap'>('layout');
+  // previewType handled inside PreviewCard to avoid unnecessary parent re-renders
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -217,63 +219,15 @@ export default function LayoutDetailPage() {
 
         {/* Preview and Properties Cards */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
-          {/* Left: Preview Card (2/3) */}
+
+          {/* Preview */}
           <div className="xl:col-span-2">
-            <Card className="h-full">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0">
-                <CardTitle>Превью</CardTitle>
-                <div className="flex gap-3">
-                  <Button
-                    variant={previewType === 'layout' ? 'default' : 'outline'}
-                    size="icon-sm"
-                    onClick={() => setPreviewType('layout')}
-                  >
-                    <Layers2 className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={previewType === 'heatmap' ? 'default' : 'outline'}
-                    size="icon-sm"
-                    onClick={() => setPreviewType('heatmap')}
-                    disabled={!heatmapUrl}
-                  >
-                    <Flame className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="relative w-full overflow-hidden rounded-md aspect-23/9">
-                  {previewType === 'layout' && selectedPreview ? (
-                    <Image
-                      src={selectedPreview.layout_preview}
-                      alt={`Превью раскладки ${layout.name}`}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 2048px) 100vw, 66vw"
-                    />
-                  ) : previewType === 'heatmap' && heatmapUrl ? (
-                    <Image
-                      src={heatmapUrl}
-                      alt={`Тепловая карта ${layout.name}`}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 2048px) 100vw, 66vw"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
-                      <div className="text-center text-muted-foreground">
-                        <ImageIcon className="h-8 w-8 mx-auto mb-2" />
-                        <p className="text-sm">
-                          {previewType === 'layout'
-                            ? 'Превью недоступно для выбранной клавиатуры'
-                            : 'Тепловая карта недоступна'
-                          }
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <PreviewCard
+              selectedPreviewUrl={selectedPreview?.layout_preview}
+              heatmapUrl={heatmapUrl}
+              title="Превью"
+              layoutName={layout.name}
+            />
           </div>
 
           {/* Right: Properties Card (1/3) */}
@@ -348,6 +302,7 @@ export default function LayoutDetailPage() {
                 </div>
               </CardContent>
             </Card>
+
           </div>
         </div>
 
@@ -355,9 +310,7 @@ export default function LayoutDetailPage() {
         {layout.description && (
           <section className="prose prose-gray max-w-none mt-6">
             <h2 className="text-lg font-semibold mb-4">Описание</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              {layout.description}
-            </p>
+            <MarkdownRenderer>{layout.description}</MarkdownRenderer>
           </section>
         )}
 
@@ -365,7 +318,7 @@ export default function LayoutDetailPage() {
         <h2 className="text-lg font-semibold mb-4">Метрики</h2>
         {currentMetric ? (
           <div className="space-y-4">
-            {/* First level - two cards (fingers) */}
+            {/* First level */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <PlotFingerDistance
                 fingerDistanceData={fingerDistanceData}

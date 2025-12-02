@@ -1,7 +1,5 @@
-import React from 'react';
-import Link from 'next/link';
-import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 type Props = {
   href: string;

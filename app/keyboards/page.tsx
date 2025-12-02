@@ -5,11 +5,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { H1 } from '@/components/ui/h1';
 import { useKeyboardData } from '@/hooks/use-keyboard-data';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
+import { H1 } from '@/components/ui/typography';
 
 export default function KeyboardsPage() {
   const { data: keyboards, loading, error } = useKeyboardData();
@@ -55,6 +55,8 @@ export default function KeyboardsPage() {
                       onChange={(e) => setSearch(e.target.value)}
                       placeholder="Клавиатура"
                       className="w-full"
+                      autoCorrect="off"
+                      spellCheck="false"
                     />
                     {search && (
                       <button
@@ -104,6 +106,7 @@ export default function KeyboardsPage() {
                             <CardTitle className="text-lg mb-4">
                               <Link 
                                 href={`/keyboards/${keyboard.id}`}
+                                className="hover:underline"
                               >
                                 {keyboard.name}
                               </Link>

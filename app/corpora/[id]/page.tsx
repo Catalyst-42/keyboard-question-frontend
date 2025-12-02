@@ -5,10 +5,11 @@ import { useParams } from 'next/navigation';
 import { BookText, Loader2, AlertCircle, FileText, Hash, Languages } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { H1 } from '@/components/ui/h1';
 import { Corpus } from '@/api';
 import { corpusService } from '@/lib/corpus-service';
 import { layoutService } from '@/lib/layout-service';
+import { H1 } from '@/components/ui/typography';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 
 export default function CorpusDetailPage() {
   const params = useParams();
@@ -71,13 +72,7 @@ export default function CorpusDetailPage() {
           <div className="xl:col-span-2">
             <section className="space-y-4">
               <h2 className="text-lg font-semibold">Описание</h2>
-              {corpus.description ? (
-                <p className="leading-relaxed whitespace-pre-wrap">
-                  {corpus.description}
-                </p>
-              ) : (
-                <p className="text-muted-foreground italic text-lg">Описание отсутствует</p>
-              )}
+              <MarkdownRenderer>{corpus.description || "Описание отсутствует"}</MarkdownRenderer>
             </section>
           </div>
 

@@ -5,10 +5,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { H1 } from '@/components/ui/h1';
 import { useCorpusData } from '@/hooks/use-corpus-data';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { H1 } from '@/components/ui/typography';
 
 export default function CorporaPage() {
   const { data: corpora, loading, error } = useCorpusData();
@@ -91,6 +91,7 @@ export default function CorporaPage() {
                       <CardTitle className="text-lg">
                         <Link
                           href={`/corpora/${corpus.id}`}
+                          className="hover:underline"
                         >
                           {corpus.name}
                         </Link>

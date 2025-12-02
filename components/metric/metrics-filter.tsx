@@ -103,6 +103,8 @@ export function MetricsFilters({
             onChange={(e) => onTextChange && onTextChange(e.target.value)}
             placeholder="Корпус, клавиатура или раскладка"
             className="w-full"
+            autoCorrect="off"
+            spellCheck="false"
           />
           {selectedText && (
             <Button

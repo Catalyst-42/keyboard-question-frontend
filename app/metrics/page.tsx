@@ -4,7 +4,7 @@ import { Corpus, Keyboard } from '@/api';
 import { MetricsFilters } from '@/components/metric/metrics-filter';
 import { MetricsTable } from '@/components/metric/metrics-table';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { H1 } from '@/components/ui/h1';
+import { H1 } from '@/components/ui/typography';
 import { useMetricData } from '@/hooks/use-metric-data';
 import { corpusService } from '@/lib/corpus-service';
 import { keyboardService } from '@/lib/keyboard-service';

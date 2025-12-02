@@ -39,4 +39,5 @@ TODO
 - [ ] Folded header for metric info
 - [ ] Pages about system
 - [ ] Preffered direction for metric-card in diff
+- [ ] Reduce makeFinger* bullshit array, move it to utils
 -->

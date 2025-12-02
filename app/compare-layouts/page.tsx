@@ -9,8 +9,7 @@ import { ListTrigrams } from '@/components/metric/list-trigrams';
 import { PlotFingerDistance } from '@/components/metric/plot-finger-distance';
 import { PlotFingerUsage } from '@/components/metric/plot-finger-usage';
 import { PlotRowUsage } from '@/components/metric/plot-row-usage';
-import { Card, CardHeader } from '@/components/ui/card';
-import { H1 } from '@/components/ui/h1';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -24,6 +23,9 @@ import { useKeyboardData } from '@/hooks/use-keyboard-data';
 import { useLayoutData } from '@/hooks/use-layout-data';
 import { useMetricData } from '@/hooks/use-metric-data';
 import { useMemo, useState } from 'react';
+import PreviewCard from '@/components/layout/preview-card';
+import TwoColumnResponsive from '@/components/ui/two-column-responsive';
+import { H1 } from '@/components/ui/typography';
 
 export default function Page() {
   const { data: corpora } = useCorpusData();
@@ -40,6 +42,7 @@ export default function Page() {
   const [rightCorpus, setRightCorpus] = useState<string>('');
   const [rightKeyboard, setRightKeyboard] = useState<string>('');
   const [rightLayout, setRightLayout] = useState<string>('');
+
 
 
   const keyboardsForCorpus = (corpusId: number | null) => {
@@ -145,31 +148,9 @@ export default function Page() {
   const leftHandPercents = computeHandPercents(leftFingerUsageData);
   const rightHandPercents = computeHandPercents(rightFingerUsageData);
 
-  const TwoColumnResponsive = ({
-    left,
-    right,
-    mobileWidth = 'w-82',
-    gridGap = 'gap-4',
-    mobileContainerClass = 'overflow-x-auto pb-6',
-  }: any) => {
-    return (
-      <>
-        <div className={`hidden sm:grid grid-cols-2 ${gridGap}`}>
-          {left}
-          {right}
-        </div>
-
-        <div className={`sm:hidden flex gap-4 ${mobileContainerClass}`}>
-          <div className={`${mobileWidth} shrink-0`}>{left}</div>
-          <div className={`${mobileWidth} shrink-0`}>{right}</div>
-        </div>
-      </>
-    );
-  };
   return (
     <div className="container py-8">
       <H1>Сравнить раскладки</H1>
-
       {/* Select layout metric by corpus and keyboard */}
       <div className="mt-4 grid grid-cols-2 gap-4">
         {/* First side */}
@@ -334,6 +315,35 @@ export default function Page() {
       <div className="mt-8">
         {leftMetric && rightMetric ? (
           <div className="mt-4 space-y-8">
+
+            {/* Preview and Heatmap */}
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Внешний вид и тепловая карта</h3>
+              <TwoColumnResponsive
+                left={
+                  <div>
+                    <PreviewCard
+                      selectedPreviewUrl={previews?.find(p => leftLayout && leftKeyboard && p.layout === Number(leftLayout) && p.keyboard === Number(leftKeyboard))?.layout_preview}
+                      heatmapUrl={leftMetric?.frequency_heatmap}
+                      title={leftMetric.layout_name}
+                      layoutName={leftMetric?.layout_name || ''}
+                    />
+                  </div>
+                }
+                right={
+                  <div>
+                    <PreviewCard
+                      selectedPreviewUrl={previews?.find(p => rightLayout && rightKeyboard && p.layout === Number(rightLayout) && p.keyboard === Number(rightKeyboard))?.layout_preview}
+                      heatmapUrl={rightMetric?.frequency_heatmap}
+                      title={rightMetric.layout_name}
+                      layoutName={rightMetric?.layout_name || ''}
+                    />
+                  </div>
+                }
+              />
+
+            </div>
+
             {/* Distance */}
             <div>
               <h3 className="text-lg font-semibold mb-4">Метрики дистанции</h3>

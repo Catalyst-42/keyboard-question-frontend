@@ -43,7 +43,7 @@ const RowTooltip = ({ active, payload, label }: any) => {
 
 export function PlotRowUsage({ rowUsageData }: RowUsageProps) {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-3">
           <Rows3 className="h-4 w-4" />

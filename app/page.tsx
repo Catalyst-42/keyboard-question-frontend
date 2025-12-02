@@ -1,29 +1,60 @@
-import { H1 } from '@/components/ui/h1';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BarChart3, GitCompare, LayoutGrid, Monitor, Search, Settings } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
+import { H1 } from '@/components/ui/typography';
+import { BarChart3, GitCompare, Monitor, Search } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+
+const DESCRIPTION = `
+## Описание
+
+KeyboardQuestion - проект по сбору информации и исследованию способов проведения аналитики качества печати различных раскладок клавиатур.
+
+Для улучшения точности вычисления метрик KeyboardQuestion использует при проведении аналитики не только данные о раскладке, но так же информацию о корпусе текстов, на котором набирается текст и форм фактор клавиатуры, определяющей расположение клавиш раскладке на реальной клавиатуре.
+`;
+
+const FREQUENCY_ANALYSIS = `
+## Частотный анализ
+
+Использование клавиш глобально не является равномерным. Хорошая раскладка использует эти данные чтобы вывести лучший способ набора текста. Ниже представлена тепловая карта использования клавиатуры в целом, собранная среди раскладок [ЙЦУКЕН](/layouts/1), [QWERTY](/layouts/10) и [Colemak](/layouts/12).
+`;
+
+const WHAT_NEXT = `
+## Что дальше?
+
+На этом сайте вы можете узнать, по каким параметрам мы определяем степень удобства использования раскладки, выяснить, какие раскладки являются наиболее эффективными, либо же просто посмотреть, какие различные раскладки вообще существуют.
+`;
+
+const SOURCE_CODE = `
+## Исходный код
+
+Проект состоит из трёх частей. Программы аналитики, бэкенд системы, хранящей результаты анализов и пользовательского приложения, позволяющего изучать и сравнивать полученные метрики клавиатур. Каждая из систем открыта и доступна на GitHub:
+
+- [Анализатор](https://github.com/Catalyst-42/keyboard-question-analyzer)
+- [Бэкенд](https://github.com/Catalyst-42/keyboard-question-backend)
+- [Фронтенд](https://github.com/Catalyst-42/keyboard-question-frontend)
+`;
 
 export default function HomePage() {
   return (
     <div className="container py-8">
       <article className="space-y-6">
         <H1>Главная</H1>
+
         <div className="space-y-6">
           {/* Description */}
           <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Описание</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              KeyboardQuestion - проект по сбору информации и исследованию способов проведеня аналитики качества печати различных раскладок клавиатур.
-            </p>
-            <p className="leading-relaxed whitespace-pre-wrap">Для улучшения точности вычисления метрик KeyboardQuestion использует при проведении аналитики не только данные о раскладке, но так же информацию о корпусе текстов, на котором набирается текст и форм фактор клавиатуры, определяющей расположение клавиш раскладке на реальной клавиатуре.</p>
+            <MarkdownRenderer>
+              {DESCRIPTION}
+            </MarkdownRenderer>
           </section>
 
           {/* Usage preview */}
           <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Частотный анализ</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">Использование клавиш глобально не является равномерным. Хорошая раскладка использует эти данные чтобы вывести лучший способ набора текста. Ниже представлена тепловая карта использования клавиатуры в целом, собранная среди раскладок ЙЦУКЕН, QWERTY и Colemak. </p>
+            <MarkdownRenderer>
+              {FREQUENCY_ANALYSIS}
+            </MarkdownRenderer>
 
             <Card>
               <CardContent>
@@ -38,18 +69,16 @@ export default function HomePage() {
                   />
                 </div>
               </CardContent>
-
             </Card>
           </section>
 
           {/* Actions */}
           <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Что дальше?</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              На этом сайте вы можете узнать, по каким параметрам мы определяем степень удобства использования раскладки, выяснить, какие раскладки являются наиболее эффективными, либо же просто посмотреть, какие различные раскладки вообще существуют.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <MarkdownRenderer>
+              {WHAT_NEXT}
+            </MarkdownRenderer>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Get more info */}
               <Card className="flex flex-col h-full">
                 <CardHeader className="grow">
@@ -134,17 +163,10 @@ export default function HomePage() {
 
           {/* Source code */}
           <section className="space-y-4">
-            <h2 className="text-lg font-semibold">Исходный код</h2>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              Проект состоит из трёх частей. Программы аналитики, бэкенд системы, хранящей результаты анализов и пользовательского приложения, позволяющего изучать и сравнивать полученные метрики клавиатур. Каждай из систем открыта и доступна на GitHub:
-            </p>
-            <p className="leading-relaxed whitespace-pre-wrap">
-              - <a href="https://github.com/Catalyst-42/keyboard-question-analyzer">Анализатор</a><br />
-              - <a href="https://github.com/Catalyst-42/keyboard-question-backend">Бэкенд</a><br />
-              - <a href="https://github.com/Catalyst-42/keyboard-question-frontend">Фронтенд</a><br />
-            </p>
+            <MarkdownRenderer>
+              {SOURCE_CODE}
+            </MarkdownRenderer>
           </section>
-
         </div>
       </article>
     </div>

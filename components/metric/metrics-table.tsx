@@ -16,7 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatDistance, formatPercentage } from '@/lib/utils';
+import { formatPercentage, formatUnits } from '@/lib/utils';
 import { ChevronDown, ChevronsUpDown, ChevronUp, Eye } from 'lucide-react';
 import Link from 'next/link';
 
@@ -41,7 +41,7 @@ export function MetricsTable({
         return formatPercentage(value);
       }
       if (column.id.includes('distance')) {
-        return formatDistance(value);
+        return formatUnits(value);
       }
       return value.toFixed(3);
     }
@@ -144,11 +144,12 @@ export function MetricsTable({
                       className="text-center"
                     >
                       {column.id === 'keyboard_name' ? (
-                        <Link href={`/keyboards/${metric.keyboard}`}>{metric.keyboard_name || ''}</Link>
+                        <Link href={`/keyboards/${metric.keyboard}`} className="hover:underline">{metric.keyboard_name || ''}                   
+                        </Link>
                       ) : column.id === 'layout_name' ? (
-                        <Link href={`/layouts/${metric.layout}`}>{metric.layout_name || ''}</Link>
+                        <Link href={`/layouts/${metric.layout}`} className="hover:underline">{metric.layout_name || ''}</Link>
                       ) : column.id === 'corpus_name' ? (
-                        <Link href={`/corpora/${metric.corpus}`}>{metric.corpus_name || ''}</Link>
+                        <Link href={`/corpora/${metric.corpus}`} className="hover:underline">{metric.corpus_name || ''}</Link>
                       ) : (
                         formatValue(metric[column.id as keyof MetricWithRelations], column)
                       )}
