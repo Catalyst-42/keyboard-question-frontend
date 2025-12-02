@@ -38,6 +38,10 @@ TODO
 - [x] Normal readme
 - [ ] Folded header for metric info
 - [ ] Pages about system
-- [ ] Preffered direction for metric-card in diff
+- [x] Preffered direction for metric-card in diff
 - [ ] Reduce makeFinger* bullshit array, move it to utils
+- [ ] Optimize data gathering, use memo/cache
+- [ ] Make PlotFingerUsage auto calc usage by hands
+- [ ] Rename metric names in metric list page
+- [ ] Read all scrappy topics again
 -->

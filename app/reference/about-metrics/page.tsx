@@ -43,11 +43,11 @@ export default function Page() {
             <MetricCard 
               title='Важная метрика' 
               description='Используется в качестве примера'
-              value={formatPercentage(0.08)}
+              value={formatPercentage(0.0842)}
               icon={FlaskConical}
               min={0}
               max={0.42}
-              current={0.08}
+              current={0.0842}
             />
             <MetricCard 
               title='Предельная метрика' 

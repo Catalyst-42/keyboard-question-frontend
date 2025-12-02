@@ -14,12 +14,6 @@ KeyboardQuestion - проект по сбору информации и иссл
 Для улучшения точности вычисления метрик KeyboardQuestion использует при проведении аналитики не только данные о раскладке, но так же информацию о корпусе текстов, на котором набирается текст и форм фактор клавиатуры, определяющей расположение клавиш раскладке на реальной клавиатуре.
 `;
 
-const FREQUENCY_ANALYSIS = `
-## Частотный анализ
-
-Использование клавиш глобально не является равномерным. Хорошая раскладка использует эти данные чтобы вывести лучший способ набора текста. Ниже представлена тепловая карта использования клавиатуры в целом, собранная среди раскладок [ЙЦУКЕН](/layouts/1), [QWERTY](/layouts/10) и [Colemak](/layouts/12).
-`;
-
 const WHAT_NEXT = `
 ## Что дальше?
 
@@ -48,28 +42,6 @@ export default function HomePage() {
             <MarkdownRenderer>
               {DESCRIPTION}
             </MarkdownRenderer>
-          </section>
-
-          {/* Usage preview */}
-          <section className="space-y-4">
-            <MarkdownRenderer>
-              {FREQUENCY_ANALYSIS}
-            </MarkdownRenderer>
-
-            <Card>
-              <CardContent>
-                <div className="relative w-full aspect-23/9">
-                  <Image
-                    src="/media/frequency_mockup_ansi_60.png"
-                    alt="Частотный анализ клавиатуры"
-                    fill
-                    className="object-contain"
-                    priority
-                    sizes="(max-width: 2048px) 100vw, 66vw"
-                  />
-                </div>
-              </CardContent>
-            </Card>
           </section>
 
           {/* Actions */}

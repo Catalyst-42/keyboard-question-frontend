@@ -8,8 +8,10 @@ import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 
 interface FingerUsageProps {
   fingerUsageData: Array<{ finger: string; usage: number; hand: string }>;
-  leftHandUsagePercent: number;
-  rightHandUsagePercent: number;
+  leftHandUsagePercent?: number;  // TODO: Deprecate and calculate inside plot
+  rightHandUsagePercent?: number;
+  title?: string,
+  handUsageInfo?: boolean | undefined;
 }
 
 const fingerUsageConfig = {
@@ -35,15 +37,17 @@ const FingerTooltip = ({ active, payload, label }: any) => {
 
 export function PlotFingerUsage({
   fingerUsageData,
-  leftHandUsagePercent,
-  rightHandUsagePercent
+  leftHandUsagePercent = 0,
+  rightHandUsagePercent = 0,
+  handUsageInfo = false,
+  title = "Использование пальцев",
 }: FingerUsageProps) {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-3">
           <Pointer className="h-4 w-4" />
-          Использование пальцев
+          {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -65,28 +69,29 @@ export function PlotFingerUsage({
           </BarChart>
         </ChartContainer>
 
-        {/* Hand balance - split into two halves */}
-        <div className="flex border rounded-lg overflow-hidden bg-muted/30">
-          <div
-            className="flex-1 py-2 text-center relative"
-            style={{ flex: leftHandUsagePercent }}
-          >
-            <div className="text-sm font-medium">
-              {leftHandUsagePercent.toFixed(2)}%
+        {handUsageInfo && (
+          <div className="flex border rounded-lg overflow-hidden bg-muted/30">
+            <div
+              className="flex-1 py-2 text-center relative"
+              style={{ flex: leftHandUsagePercent }}
+            >
+              <div className="text-sm font-medium">
+                {formatPercentage(leftHandUsagePercent)}
+              </div>
+              <div className="text-xs text-muted-foreground">Левая</div>
             </div>
-            <div className="text-xs text-muted-foreground">Левая</div>
-          </div>
-          <div
-            className="flex-1 py-2 text-center relative"
-            style={{ flex: rightHandUsagePercent }}
-          >
-            <div className="text-sm font-medium">
-              {rightHandUsagePercent.toFixed(2)}%
+            <div
+              className="flex-1 py-2 text-center relative"
+              style={{ flex: rightHandUsagePercent }}
+            >
+              <div className="text-sm font-medium">
+                {formatPercentage(rightHandUsagePercent)}
+              </div>
+              <div className="text-xs text-muted-foreground">Правая</div>
             </div>
-            <div className="text-xs text-muted-foreground">Правая</div>
           </div>
-        </div>
+        )}
       </CardContent>
-    </Card>
+    </Card >
   );
 }

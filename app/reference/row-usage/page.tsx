@@ -104,7 +104,7 @@ export default function Page() {
             </div>
 
             {/* Row usage plot */}
-            <div className="lg:col-span-2">
+            <div className="xl:col-span-2">
               <PlotRowUsage
                 rowUsageData={makeRowUsageData(DVORAK_ROW_USAGE)}
               />

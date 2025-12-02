@@ -40,7 +40,7 @@ const formatDiffValue = () => {
 const diffDisplay = formatDiffValue();
   return (
     <div className={`
-      relative flex items-center justify-between p-3 rounded-lg bg-muted/30 overflow-hidden
+      relative flex items-center justify-between p-3 rounded-lg bg-muted/30 overflow-hidden shadow-lg
       ${isExtremeValue ? 'ring-2 ring-primary' : ''}
     `}>
       {progress !== undefined && (

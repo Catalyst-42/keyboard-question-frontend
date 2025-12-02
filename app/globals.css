@@ -47,115 +47,99 @@
   --radius: 0.375rem;
   --dash: "- ";
   
-  /* Main Bootstrap colors */
-  --blue: #0d6efd;
-  --indigo: #6610f2;
-  --purple: #6f42c1;
-  --pink: #d63384;
-  --red: #dc3545;
-  --orange: #fd7e14;
-  --yellow: #ffc107;
-  --green: #198754;
-  --teal: #20c997;
-  --cyan: #0dcaf0;
+  /* Catppuccin Latte (светлая тема) */
+  --base-00: #eff1f5; /* base */
+  --base-01: #e6e9ef; /* mantle */
+  --base-02: #ccd0da; /* surface0 */
+  --base-03: #bcc0cc; /* surface1 */
+  --base-04: #acb0be; /* surface2 */
+  --base-05: #4c4f69; /* text */
+  --base-06: #dc8a78; /* rosewater */
+  --base-07: #7287fd; /* lavender */
+  --base-08: #d20f39; /* red */
+  --base-09: #fe640b; /* peach */
+  --base-0A: #df8e1d; /* yellow */
+  --base-0B: #40a02b; /* green */
+  --base-0C: #179299; /* teal */
+  --base-0D: #1e66f5; /* blue */
+  --base-0E: #8839ef; /* mauve */
+  --base-0F: #dd7878; /* flamingo */
   
-  /* Grayscale colors */
-  --white: #fff;
-  --gray-100: #f8f9fa;
-  --gray-200: #e9ecef;
-  --gray-300: #dee2e6;
-  --gray-400: #ced4da;
-  --gray-500: #adb5bd;
-  --gray-600: #6c757d;
-  --gray-700: #495057;
-  --gray-800: #343a40;
-  --gray-900: #212529;
-  --black: #000;
+  /* Светлая тема - Catppuccin Latte */
+  --background: var(--base-00);
+  --foreground: var(--base-05);
+  --card: var(--base-01);
+  --card-foreground: var(--base-05);
+  --popover: var(--base-01);
+  --popover-foreground: var(--base-05);
+  --primary: var(--base-0D); /* blue */
+  --primary-foreground: var(--base-00);
+  --secondary: var(--base-02);
+  --secondary-foreground: var(--base-05);
+  --muted: var(--base-01);
+  --muted-foreground: var(--base-05);
+  --accent: var(--base-02);
+  --accent-foreground: var(--base-05);
+  --destructive: var(--base-08); /* red */
+  --border: var(--base-02);
+  --input: var(--base-02);
+  --ring: var(--base-07); /* lavender */
   
-  /* Theme colors */
-  --primary: var(--blue);
-  --secondary: var(--gray-600);
-  --success: var(--green);
-  --info: var(--cyan);
-  --warning: var(--yellow);
-  --danger: var(--red);
-  --light: var(--gray-100);
-  --dark: var(--gray-900);
+  /* Цвета для графиков */
+  --chart-1: var(--base-0D); /* blue */
+  --chart-2: var(--base-0B); /* green */
+  --chart-3: var(--base-0A); /* yellow */
+  --chart-4: var(--base-0E); /* mauve */
+  --chart-5: var(--base-09); /* peach */
   
-  /* Main colors */
-  --background: var(--white);
-  --foreground: var(--gray-900);
-  --card: var(--gray-100);
-  --card-foreground: var(--gray-900);
-  --popover: var(--white);
-  --popover-foreground: var(--gray-900);
-  --primary-foreground: var(--white);
-  --secondary: var(--gray-100);
-  --secondary-foreground: var(--gray-900);
-  --muted: var(--gray-100);
-  --muted-foreground: var(--gray-600);
-  --accent: var(--gray-100);
-  --accent-foreground: var(--gray-900);
-  --destructive: var(--red);
-  --border: var(--gray-300);
-  --input: var(--gray-300);
-  --ring: var(--blue);
-  
-  /* Chart colors */
-  --chart-1: var(--blue);
-  --chart-2: var(--indigo);
-  --chart-3: var(--purple);
-  --chart-4: var(--pink);
-  --chart-5: var(--red);
-  
-  /* Sidebar colors */
-  --sidebar: var(--gray-100);
-  --sidebar-foreground: var(--gray-900);
-  --sidebar-primary: var(--blue);
-  --sidebar-primary-foreground: var(--white);
-  --sidebar-accent: var(--gray-200);
-  --sidebar-accent-foreground: var(--gray-900);
-  --sidebar-border: var(--gray-300);
-  --sidebar-ring: var(--blue);
+  /* Боковая панель */
+  --sidebar: var(--base-01);
+  --sidebar-foreground: var(--base-05);
+  --sidebar-primary: var(--base-0D); /* blue */
+  --sidebar-primary-foreground: var(--base-00);
+  --sidebar-accent: var(--base-02);
+  --sidebar-accent-foreground: var(--base-05);
+  --sidebar-border: var(--base-02);
+  --sidebar-ring: var(--base-07); /* lavender */
 }
 
 .dark {
-  /* Dark theme */
-  --background: var(--gray-900);
-  --foreground: var(--gray-100);
-  --card: var(--gray-800);
-  --card-foreground: var(--gray-100);
-  --popover: var(--gray-800);
-  --popover-foreground: var(--gray-100);
-  --primary: var(--blue);
-  --primary-foreground: var(--white);
-  --secondary: var(--gray-700);
-  --secondary-foreground: var(--gray-100);
-  --muted: var(--gray-700);
-  --muted-foreground: var(--gray-400);
-  --accent: var(--gray-700);
-  --accent-foreground: var(--gray-100);
-  --destructive: var(--red);
-  --border: var(--gray-800);
-  --input: var(--gray-600);
-  --ring: var(--blue);
+  /* Темная тема - глубокие пастельные тона */
+  --background: #1a1b26;
+  --foreground: #e2e2e8;
+  --card: #24283b;
+  --card-foreground: #e2e2e8;
+  --popover: #2a2f45;
+  --popover-foreground: #e2e2e8;
+  --primary: #7aa2f7;
+  --primary-foreground: #1a1b26;
+  --secondary: #414868;
+  --secondary-foreground: #e2e2e8;
+  --muted: #3b4261;
+  --muted-foreground: #a9b1d6;
+  --accent: #414868;
+  --accent-foreground: #e2e2e8;
+  --destructive: #f7768e;
+  --border: #3b4261;
+  --input: #565f89;
+  --ring: #7aa2f7;
   
-  /* Chart colors для темной темы */
-  --chart-1: var(--blue);
-  --chart-2: var(--teal);
-  --chart-3: var(--yellow);
-  --chart-4: var(--purple);
-  --chart-5: var(--orange);
+  /* Пастельные цвета для графиков в темной теме */
+  --chart-1: #7aa2f7;
+  --chart-2: #73daca;
+  --chart-3: #e0af68;
+  --chart-4: #bb9af7;
+  --chart-5: #ff9e64;
   
-  /* Sidebar colors для темной темы */
-  --sidebar: var(--gray-800);
-  --sidebar-foreground: var(--gray-100);
-  --sidebar-primary: var(--blue);
-  --sidebar-primary-foreground: var(--white);
-  --sidebar-accent: var(--gray-700);
-  --sidebar-accent-foreground: var(--gray-100);
-  --sidebar-border: var(--gray-800);
-  --sidebar-ring: var(--indigo);
+  /* Боковая панель для темной темы */
+  --sidebar: #24283b;
+  --sidebar-foreground: #e2e2e8;
+  --sidebar-primary: #7aa2f7;
+  --sidebar-primary-foreground: #1a1b26;
+  --sidebar-accent: #414868;
+  --sidebar-accent-foreground: #e2e2e8;
+  --sidebar-border: #3b4261;
+  --sidebar-ring: #bb9af7;
 }
 
 @layer base {

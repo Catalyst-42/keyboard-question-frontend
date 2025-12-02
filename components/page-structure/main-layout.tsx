@@ -12,7 +12,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background shadow-xl">
+      <header className="sticky top-0 z-50 bg-card shadow-lg">
         <div className="flex h-14 items-center">
           <MobileNav />
 

@@ -191,8 +191,8 @@ export default function LayoutDetailPage() {
     .reduce((sum, item) => sum + item.usage, 0);
 
   const totalUsage = leftHandUsage + rightHandUsage;
-  const leftHandUsagePercent = totalUsage > 0 ? (leftHandUsage / totalUsage) * 100 : 0;
-  const rightHandUsagePercent = totalUsage > 0 ? (rightHandUsage / totalUsage) * 100 : 0;
+  const leftHandUsagePercent = totalUsage > 0 ? (leftHandUsage / totalUsage) : 0;
+  const rightHandUsagePercent = totalUsage > 0 ? (rightHandUsage / totalUsage) : 0;
 
   if (loading) {
     return <div className="container py-8"></div>;
@@ -329,6 +329,7 @@ export default function LayoutDetailPage() {
                 fingerUsageData={fingerUsageData}
                 leftHandUsagePercent={leftHandUsagePercent}
                 rightHandUsagePercent={rightHandUsagePercent}
+                handUsageInfo
               />
             </div>
 
