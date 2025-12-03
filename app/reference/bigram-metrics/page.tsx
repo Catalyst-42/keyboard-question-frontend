@@ -1,4 +1,3 @@
-import { PlotFingerUsage } from '@/components/metric/plot-finger-usage';
 import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
@@ -12,16 +11,19 @@ const ABOUT = `
 
 KeyboardQuestion определяет следующие биграммные метрики: 
 
-- Однопальцевые скипграммы
-- Полные ножницы
-- Полу-ножницы
+- Однопальцевые биграммы
+- Ножницы
 - Боковое растяжение
 
 Каждая из этих метрик определена для биграмм и скипграмм. Биграммные метрики более критичны и на них стоит смотреть в первую очередь. Все биграммные метрики считаются отрицательными: ниже процент появления этих метрик, тем лучше для раскладки. Улучшить же показатель каждой метрики можно путём увеличения чередования рук при наборе текста, а так же размещению частых символов и биграмм на соседних горизонтальных рядах. 
+`
 
+const SFB = `
 ## Однопальцевые скипграммы
 Скипграмма считается однопальцевой, если её первый и последний символы набраны одним пальцем. Показатель особо критичен для биграмм. Однопальцевые биграммы (SFB - same finger bigram) сильно замедляют скорость набора текста, заставляя пользователя использовать один палец при печати, в то же время оставляя другие в бездействии. Одна из самых частых однопальцевых биграмм для [ЙЦУКЕН](/layouts/1) - \`от\`. Если однопальцевой является скипграмма (SFS), то она тоже оказывает своё влияние и мешает печати. Однако её влияние не удобство набора меньше. 
+`
 
+const FSB = `
 ## Ножницы
 Скипграмма считается ножницами (SB - scissor bigram) если она набрана одной рукой и палец, который предпочитает находится выше, находится в позиции ниже. Порядок предпочтения пальцев следующий (сверху вниз): 
 
@@ -34,7 +36,9 @@ KeyboardQuestion определяет следующие биграммные м
 Ножницы считаются полными (FSB - full scissor bigram) если вертикальное расстояние между набираемыми клавишами составляет больше двух юнитов. Если дистанция меньше двух юнитов, но больше одного, то это полу-ножницы (HSB). 
 
 Пример биграммы-ножницы для [ЙЦУКЕН](/layouts/1): \`бо\`. Безымянный палец тянется в самый низ, чтобы набрать букву \`б\`, в то же время указательный палец остаётся на своём месте. Получается неестественное растяжение пальцев, неудобное для них. Другой пример ножниц, биграмма \`че\`. Левый безымянный палец тянется вниз, а указательный вверх. 
+`
 
+const LSB = `
 ## Боковое растяжение
 Скипграмма является растянутой (LS - lateral stretch) когда оба символа набраны соседними или чередующимися пальцами так, что расстояние между клавишами для соседних пальцев больше 2 юнитов, а между чередующимися больше 3.5. Соседними считаются пальцы, идущие друг за другом. Например правый мизинец и правый безымянный палец - соседние. Чередующимися пальцами считаются те, что идут через один. Например, чередующимися считаются левый указательный и левый безымянный пальцы. 
 
@@ -55,6 +59,120 @@ export default function Page() {
             </MarkdownRenderer>
           </section>
 
+          {/* SFB */}
+          <section className="space-y-4">
+            <MarkdownRenderer>
+              {SFB}
+            </MarkdownRenderer>
+
+            {/* SFB 1 */}
+            <div>
+              <Card>
+                <CardContent>
+                  <div className="relative w-full aspect-23/9">
+                    <Image
+                      src="/media/bigrams/sfb_example.png"
+                      alt="Тепловая карта ЙЦУКЕН для корпуса дневников"
+                      fill
+                      className="object-contain"
+                      priority
+                      sizes="(max-width: 2048px) 100vw, 66vw"
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* FSB */}
+            <section className="space-y-4">
+              <MarkdownRenderer>
+                {FSB}
+              </MarkdownRenderer>
+
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                {/* FSB 1 */}
+                <div>
+                  <Card>
+                    <CardContent>
+                      <div className="relative w-full aspect-23/9">
+                        <Image
+                          src="/media/bigrams/fsb_example.png"
+                          alt="Пример биграммы ножницы бо"
+                          fill
+                          className="object-contain"
+                          priority
+                          sizes="(max-width: 2048px) 100vw, 66vw"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* FSB 2 */}
+                <div>
+                  <Card>
+                    <CardContent>
+                      <div className="relative w-full aspect-23/9">
+                        <Image
+                          src="/media/bigrams/fsb_example_2.png"
+                          alt="Пример биграммы ножницы че"
+                          fill
+                          className="object-contain"
+                          priority
+                          sizes="(max-width: 2048px) 100vw, 66vw"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </section>
+
+            {/* LSB */}
+            <section className="space-y-4">
+              <MarkdownRenderer>
+                {LSB}
+              </MarkdownRenderer>
+
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                {/* LSB 1 */}
+                <div>
+                  <Card>
+                    <CardContent>
+                      <div className="relative w-full aspect-23/9">
+                        <Image
+                          src="/media/bigrams/lsb_example.png"
+                          alt="Пример бокового растяжения при наборе ум"
+                          fill
+                          className="object-contain"
+                          priority
+                          sizes="(max-width: 2048px) 100vw, 66vw"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* LSB 2 */}
+                <div>
+                  <Card>
+                    <CardContent>
+                      <div className="relative w-full aspect-23/9">
+                        <Image
+                          src="/media/bigrams/lsb_example_2.png"
+                          alt="Пример бокового растяжения при наборе иц"
+                          fill
+                          className="object-contain"
+                          priority
+                          sizes="(max-width: 2048px) 100vw, 66vw"
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </section>
+          </section>
         </div>
       </article>
     </div>

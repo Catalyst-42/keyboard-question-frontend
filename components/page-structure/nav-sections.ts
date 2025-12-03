@@ -51,14 +51,9 @@ export const navSections = [
     icon: Icons.BookOpen,
     items: [
       {
-        title: 'Другие раскладки',
+        title: 'Смена раскладки',
         href: '/topics/about',
         icon: Icons.Info,
-      },
-      {
-        title: 'Лучшие раскладки',
-        href: '/topics/best-layouts',
-        icon: Icons.BookOpen,
       },
       {
         title: 'Программы',

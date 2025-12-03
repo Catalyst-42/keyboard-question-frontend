@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans, 'Verdana');
+  --font-mono: var(--font-geist-mono, 'Courier');
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -46,8 +46,8 @@
 :root {
   --radius: 0.375rem;
   --dash: "- ";
-  
-  /* Catppuccin Latte (светлая тема) */
+
+  /* Catppuccin Latte */
   --base-00: #eff1f5; /* base */
   --base-01: #e6e9ef; /* mantle */
   --base-02: #ccd0da; /* surface0 */
@@ -64,8 +64,7 @@
   --base-0D: #1e66f5; /* blue */
   --base-0E: #8839ef; /* mauve */
   --base-0F: #dd7878; /* flamingo */
-  
-  /* Светлая тема - Catppuccin Latte */
+
   --background: var(--base-00);
   --foreground: var(--base-05);
   --card: var(--base-01);
@@ -85,14 +84,12 @@
   --input: var(--base-02);
   --ring: var(--base-07); /* lavender */
   
-  /* Цвета для графиков */
   --chart-1: var(--base-0D); /* blue */
   --chart-2: var(--base-0B); /* green */
   --chart-3: var(--base-0A); /* yellow */
   --chart-4: var(--base-0E); /* mauve */
   --chart-5: var(--base-09); /* peach */
   
-  /* Боковая панель */
   --sidebar: var(--base-01);
   --sidebar-foreground: var(--base-05);
   --sidebar-primary: var(--base-0D); /* blue */
@@ -104,7 +101,7 @@
 }
 
 .dark {
-  /* Темная тема - глубокие пастельные тона */
+  /* Tokyo night */
   --background: #1a1b26;
   --foreground: #e2e2e8;
   --card: #24283b;
@@ -124,14 +121,12 @@
   --input: #565f89;
   --ring: #7aa2f7;
   
-  /* Пастельные цвета для графиков в темной теме */
   --chart-1: #7aa2f7;
   --chart-2: #73daca;
   --chart-3: #e0af68;
   --chart-4: #bb9af7;
   --chart-5: #ff9e64;
   
-  /* Боковая панель для темной темы */
   --sidebar: #24283b;
   --sidebar-foreground: #e2e2e8;
   --sidebar-primary: #7aa2f7;

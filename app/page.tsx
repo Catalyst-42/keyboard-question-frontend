@@ -1,9 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
 import { BarChart3, GitCompare, Monitor, Search } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 const DESCRIPTION = `
