@@ -8,7 +8,8 @@ This is a frontend app for KeyboardQuestion project. Build on top of shadcn with
 > Backend is located in [separate repository](https://github.com/Catalyst-42/keyboard-question-backend)
 
 ## Images
-Onging when I will made normal UI.
+| ![Dark theme](img/dark_theme.png) | ![Light theme](img/light_theme.png) |
+|-|-|
 
 ## Setup
 First, install all dependencies via npm:
@@ -33,11 +34,11 @@ npm run dev
 Now app should be available at `localhost:3000`.
 
 <!-- 
-TODO
+TODO:
 
 - [x] Normal readme
 - [ ] Folded header for metric info
-- [ ] Pages about system
+- [x] Pages about system
 - [x] Preffered direction for metric-card in diff
 - [ ] Reduce makeFinger* bullshit array, move it to utils
 - [ ] Optimize data gathering, use memo/cache
