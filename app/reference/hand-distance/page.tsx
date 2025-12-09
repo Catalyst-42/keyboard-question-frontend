@@ -39,31 +39,32 @@ const LANGUAGE_MATTERS = `
 
 // Computed for ANSI 60 and Russian corpus
 const JCUKEN_DISTANCE = {
-  travel_distance: 1.1285922507524684,
-  travel_distance_finger_1: 0.03815708210617643,
-  travel_distance_finger_2: 0.025749821145093926,
-  travel_distance_finger_3: 0.11539521586547262,
-  travel_distance_finger_4: 0.37931954703588694,
+  travel_distance: 0.9584849768458086,
+  travel_distance_finger_1: 0.03456933904660015,
+  travel_distance_finger_2: 0.02548590588302524,
+  travel_distance_finger_3: 0.08665027327754683,
+  travel_distance_finger_4: 0.30793101255050415,
   travel_distance_finger_5: 0.0,
   travel_distance_finger_6: 0.0,
-  travel_distance_finger_7: 0.4642787375880808,
-  travel_distance_finger_8: 0.04939350966835328,
-  travel_distance_finger_9: 0.01678226853597721,
-  travel_distance_finger_10: 0.03951606880742705,
+  travel_distance_finger_7: 0.3997602359195782,
+  travel_distance_finger_8: 0.036771621711348526,
+  travel_distance_finger_9: 0.018769281377288276,
+  travel_distance_finger_10: 0.04854730707991716,
 };
 
 const VESTNIK_DISTANCE = {
-  travel_distance: 0.8513859559208218,
-  travel_distance_finger_1: 0.034117715941839544,
-  travel_distance_finger_2: 0.10984924671655942,
-  travel_distance_finger_3: 0.14384055326710532,
-  travel_distance_finger_4: 0.13417050896421878,
+  travel_distance: 0.705938880150195,
+  travel_distance_finger_1: 0.02087488209579571,
+  travel_distance_finger_2: 0.10163656016511598,
+  travel_distance_finger_3: 0.10948862415075232,
+  travel_distance_finger_4: 0.11232072158865254,
   travel_distance_finger_5: 0.0,
   travel_distance_finger_6: 0.0,
-  travel_distance_finger_7: 0.10477666979094157,
-  travel_distance_finger_8: 0.1307476616468874,
-  travel_distance_finger_9: 0.08422949526583018,
-  travel_distance_finger_10: 0.10965410432743962,
+  travel_distance_finger_7: 0.08533128141601537,
+  travel_distance_finger_8: 0.10891469268967292,
+  travel_distance_finger_9: 0.06738184552433146,
+  travel_distance_finger_10: 0.09999027251985872,
+  finger_usage_1: 0.059032223404229145,
 };
 
 const makeFingerDistanceData = (m: any) => m ? [

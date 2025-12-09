@@ -1,10 +1,16 @@
 import type { NextConfig } from "next";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  basePath: basePath,
+  trailingSlash: true,
+
   images: {
+    unoptimized: true,
     dangerouslyAllowLocalIP: true,
     remotePatterns: [
+      // Development
       {
         protocol: 'http',
         hostname: 'localhost',
@@ -13,17 +19,21 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'http',
-        hostname: '127.0.0.1', 
+        hostname: '127.0.0.1',
         port: '8000',
         pathname: '/media/**',
       },
+
+      // Production
       {
-        protocol: 'http',
-        hostname: '192.168.1.45', 
-        port: '8000',
-        pathname: '/media/**',
-      }
+        protocol: 'https',
+        hostname: 'tauceti.nhost.me',
+        pathname: '/keyboard-question-backend/media/**',
+      },
     ]
+  },
+  env: {
+    API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
   }
 };
 

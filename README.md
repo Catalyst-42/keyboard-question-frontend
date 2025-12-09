@@ -22,6 +22,7 @@ To use system you need to launch backend app and fill it with info, collected vi
 
 ```ini
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+NEXT_PUBLIC_BASE_PATH=
 ```
 
 ## Launch

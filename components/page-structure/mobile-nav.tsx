@@ -36,7 +36,7 @@ export function MobileNav() {
             <Menu className="h-4 w-4" />
             <span className="sr-only">Открыть меню навигации</span>
           </Button>
-          <span className="text-md font-bold md:hidden">Меню</span>
+          <span className="text-md font-bold md:hidden cursor-pointer">Меню</span>
         </div>
 
       </SheetTrigger>
@@ -65,7 +65,7 @@ export function MobileNav() {
                   {/* Section group header with toggle button */}
                   <Button
                     variant="ghost"
-                    className="w-full justify-start px-3 py-3 hover:bg-accent hover:text-accent-foreground"
+                    className="w-full justify-start px-3 py-3 hover:bg-accent hover:text-accent-foreground my-1"
                     onClick={() => toggleGroup(section.id)}
                   >
                     <div className="flex items-center gap-3 flex-1">
