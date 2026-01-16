@@ -1,11 +1,8 @@
 import { MetricCard } from '@/components/metric/metric-card';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
 import { formatPercentage, formatUnits } from '@/lib/utils';
 import { AlertCircle, FlaskConical, Move } from 'lucide-react';
-import Image from 'next/image';
 
 const ABOUT_METRICS = `
 ## Что это вообще такое
@@ -31,7 +28,7 @@ export default function Page() {
         <H1>О метриках</H1>
 
         <div className="space-y-6">
-        {/* About metrics */}
+          {/* About metrics */}
           <section className="space-y-4">
             <MarkdownRenderer>
               {ABOUT_METRICS}
@@ -40,8 +37,8 @@ export default function Page() {
 
           {/* Common metrics cards */}
           <div className="grid grid-cols-2 gap-4">
-            <MetricCard 
-              title='Важная метрика' 
+            <MetricCard
+              title='Важная метрика'
               description='Используется в качестве примера'
               value={formatPercentage(0.0842)}
               icon={FlaskConical}
@@ -49,8 +46,8 @@ export default function Page() {
               max={0.42}
               current={0.0842}
             />
-            <MetricCard 
-              title='Предельная метрика' 
+            <MetricCard
+              title='Предельная метрика'
               description='Очень высокий показатель'
               value={formatUnits(0.8 * 0.42)}
               icon={AlertCircle}
@@ -68,8 +65,8 @@ export default function Page() {
           </section>
 
           <div className="grid grid-cols-2 gap-4">
-            <MetricCard 
-              title='Неудобная раскладка' 
+            <MetricCard
+              title='Неудобная раскладка'
               description='Дистанция больше единицы - крайне плохо'
               value={formatUnits(1.28)}
               icon={Move}
@@ -79,8 +76,8 @@ export default function Page() {
               diffMode
               referenceValue={0.858}
             />
-            <MetricCard 
-              title='Удобная раскладка' 
+            <MetricCard
+              title='Удобная раскладка'
               description='Руки не так много двигаются'
               value={formatUnits(0.858)}
               icon={Move}

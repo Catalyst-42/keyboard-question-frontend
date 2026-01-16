@@ -44,6 +44,6 @@ TODO:
 - [ ] Reduce makeFinger* bullshit array, move it to utils
 - [ ] Optimize data gathering, use memo/cache
 - [ ] Make PlotFingerUsage auto calc usage by hands
-- [ ] Rename metric names in metric list page
+- [x] Rename metric names in metric list page
 - [ ] Read all scrappy topics again
 -->

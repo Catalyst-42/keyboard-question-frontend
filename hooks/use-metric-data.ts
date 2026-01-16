@@ -24,9 +24,11 @@ const defaultColumns: MetricColumn[] = [
     isVisible: true,
     isNumeric: false
   },
+
+  // Travel distance
   {
     id: 'travel_distance',
-    label: 'Дистанция',
+    label: 'Общая дистанция',
     isVisible: true,
     isNumeric: true
   },
@@ -90,6 +92,8 @@ const defaultColumns: MetricColumn[] = [
     isVisible: false,
     isNumeric: true
   },
+
+  // Hand usage
   {
     id: 'finger_usage_1',
     label: 'Использование левого мизинца',
@@ -150,42 +154,72 @@ const defaultColumns: MetricColumn[] = [
     isVisible: false,
     isNumeric: true
   },
+
+  // Row usage
   {
     id: 'row_usage_k',
-    label: 'Использование функционального ряда K',
+    label: 'Ряд K',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'row_usage_e',
-    label: 'Использование числового ряда E',
+    label: 'Ряд E',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'row_usage_d',
-    label: 'Использование верхнего ряда D',
+    label: 'Ряд D',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'row_usage_c',
-    label: 'Домашний ряд C',
+    label: 'Ряд C',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'row_usage_b',
-    label: 'Нижний ряд B',
+    label: 'Ряд B',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'row_usage_a',
-    label: 'Контрольный ряд A',
+    label: 'Ряд A',
     isVisible: false,
     isNumeric: true
   },
+
+  // Trigrams
+  {
+    id: 'roll_frequency',
+    label: 'Роллинг',
+    isVisible: false,
+    isNumeric: true
+  },
+  {
+    id: 'alternate_frequency',
+    label: 'Чередование',
+    isVisible: false,
+    isNumeric: true
+  },
+  {
+    id: 'onehand_frequency',
+    label: 'Полный роллинг',
+    isVisible: false,
+    isNumeric: true
+  },
+  {
+    id: 'redirect_frequency',
+    label: 'Редиректы',
+    isVisible: false,
+    isNumeric: true
+  },
+
+  // Bigrams
   {
     id: 'same_finger_bigram_frequency',
     label: 'Однопальцевые биграммы',
@@ -199,8 +233,28 @@ const defaultColumns: MetricColumn[] = [
     isNumeric: true
   },
   {
+    id: 'half_scissor_bigram_frequency',
+    label: 'Полу-ножницы биграмм',
+    isVisible: false,
+    isNumeric: true
+  },
+  {
+    id: 'full_scissor_bigram_frequency',
+    label: 'Ножницы биграмм',
+    isVisible: false,
+    isNumeric: true
+  },
+  {
+    id: 'lateral_stretch_bigram_frequency',
+    label: 'Боковое растяжение биграмм',
+    isVisible: false,
+    isNumeric: true
+  },
+
+  // Skipgrams
+  {
     id: 'same_finger_skipgram_frequency',
-    label: 'Частота скипграмм одного пальца',
+    label: 'Однопальцевые скипграммы',
     isVisible: false,
     isNumeric: true
   },
@@ -211,62 +265,20 @@ const defaultColumns: MetricColumn[] = [
     isNumeric: true
   },
   {
-    id: 'half_scissor_bigram_frequency',
-    label: 'Половинные ножницы биграмм',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'full_scissor_bigram_frequency',
-    label: 'Частота полных ножниц биграмм',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
     id: 'half_scissor_skipgram_frequency',
-    label: 'Частота половинных ножниц скипграмм',
+    label: 'Полу-ножницы скипграмм',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'full_scissor_skipgram_frequency',
-    label: 'Частота полных ножниц скипграмм',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'lateral_stretch_bigram_frequency',
-    label: 'Частота бокового растяжения биграмм',
+    label: 'Полные ножницы скипграмм',
     isVisible: false,
     isNumeric: true
   },
   {
     id: 'lateral_stretch_skipgram_frequency',
-    label: 'Частота бокового растяжения скипграмм',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'roll_frequency',
-    label: 'Частота перекатов',
-      isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'alternate_frequency',
-    label: 'Частота альтернаций',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'onehand_frequency',
-    label: 'Частота одноручного ввода',
-    isVisible: false,
-    isNumeric: true
-  },
-  {
-    id: 'redirect_frequency',
-    label: 'Частота редиректов',
+    label: 'Боковое растяжение скипграмм',
     isVisible: false,
     isNumeric: true
   }
