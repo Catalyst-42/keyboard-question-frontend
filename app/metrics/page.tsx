@@ -9,7 +9,7 @@ import { useMetricData } from '@/hooks/use-metric-data';
 import { corpusService } from '@/lib/corpus-service';
 import { keyboardService } from '@/lib/keyboard-service';
 import { layoutService } from '@/lib/layout-service';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function MetricsPage() {
@@ -86,6 +86,13 @@ export default function MetricsPage() {
             <AlertCircle className="h-5 w-5" />
             <AlertDescription>{error}</AlertDescription>
           </Alert>
+        )}
+
+        {/* Loading */}
+        {loading && (
+          <div className="flex justify-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
         )}
 
         {/* Table */}

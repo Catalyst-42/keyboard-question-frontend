@@ -40,6 +40,13 @@ export default function KeyboardsPage() {
           </Alert>
         )}
 
+        {/* Loading */}
+        {loading && (
+          <div className="flex justify-center py-8">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        )}
+
         {/* Data */}
         {!loading && !error && keyboards && (
           <>
