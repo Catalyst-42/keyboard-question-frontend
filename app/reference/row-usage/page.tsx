@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
 import { ImageIcon } from 'lucide-react';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -55,7 +56,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-32/9">
                   <Image
-                    src="/media/rows_ansi_100.png"
+                    src={media('rows_ansi_100.png')}
                     alt="Превью ANSI 100% с подписью рядов"
                     fill
                     className="object-contain"
@@ -92,7 +93,7 @@ export default function Page() {
                 <CardContent>
                   <div className="relative w-full overflow-hidden rounded-md aspect-23/9">
                     <Image
-                      src="/media/rows_dvorak.png"
+                      src={media('rows_dvorak.png')}
                       alt="Dvorak ANSI 60"
                       fill
                       className="object-contain"

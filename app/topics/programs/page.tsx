@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT_PROGRAMS = `
@@ -76,7 +77,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/ukelele.png"
+                    src={media('ukelele.png')}
                     alt="Ukelele"
                     fill
                     className="object-contain"
@@ -97,7 +98,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/msklc.png"
+                    src={media('msklc.png')}
                     alt="MSKLC"
                     fill
                     className="object-contain"

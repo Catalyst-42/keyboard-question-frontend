@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -41,7 +42,7 @@ export default function HomePage() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/fingers.png"
+                    src={media('fingers.png')}
                     alt="Использование пальцев при печати"
                     fill
                     className="object-contain"

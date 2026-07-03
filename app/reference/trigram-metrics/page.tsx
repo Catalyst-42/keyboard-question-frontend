@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -61,7 +62,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/trigrams/rolling.png"
+                    src={media('trigrams/rolling.png')}
                     alt="Пример роллинга триграммы вал"
                     fill
                     className="object-contain"
@@ -83,7 +84,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/trigrams/onehand.png"
+                    src={media('trigrams/onehand.png')}
                     alt="Пример одноручной триграммы"
                     fill
                     className="object-contain"
@@ -105,7 +106,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/trigrams/onehand.png"
+                    src={media('trigrams/onehand.png')}
                     alt="Пример одноручной триграммы"
                     fill
                     className="object-contain"
@@ -127,7 +128,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/trigrams/alternate.png"
+                    src={media('trigrams/alternate.png')}
                     alt="Пример чередования при печати триграммы нет"
                     fill
                     className="object-contain"
@@ -153,7 +154,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/trigrams/redirect.png"
+                    src={media('trigrams/redirect.png')}
                     alt="Пример редиректа при печати триграммы явы"
                     fill
                     className="object-contain"

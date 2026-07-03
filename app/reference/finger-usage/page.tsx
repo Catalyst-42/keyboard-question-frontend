@@ -2,6 +2,7 @@ import { PlotFingerUsage } from '@/components/metric/plot-finger-usage';
 import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -86,7 +87,7 @@ export default function Page() {
                   <CardContent>
                     <div className="relative w-full aspect-23/9">
                       <Image
-                        src="/media/heatmap_jcuken.png"
+                        src={media('heatmap_jcuken.png')}
                         alt="Тепловая карта ЙЦУКЕН для корпуса дневников"
                         fill
                         className="object-contain"
@@ -126,7 +127,7 @@ export default function Page() {
                   <CardContent>
                     <div className="relative w-full aspect-23/9">
                       <Image
-                        src="/media/heatmap_fasttype.png"
+                        src={media('heatmap_fasttype.png')}
                         alt="Тепловая карта Скорописи для корпуса дневников"
                         fill
                         className="object-contain"
@@ -155,7 +156,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/heatmap_keyboard.png"
+                    src={media('heatmap_keyboard.png')}
                     alt="Частотный анализ клавиатуры"
                     fill
                     className="object-contain"

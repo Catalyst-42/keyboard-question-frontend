@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import TwoColumnResponsive from '@/components/ui/two-column-responsive';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -99,7 +100,7 @@ export default function Page() {
               <CardContent>
                 <div className="relative w-full aspect-23/9">
                   <Image
-                    src="/media/type_hello.gif"
+                    src={media('type_hello.gif')}
                     alt="Набор слова привет на клавиатуре ANSI и раскладке ЙЦУКЕН"
                     fill
                     className="object-contain"

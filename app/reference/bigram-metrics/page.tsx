@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { MarkdownRenderer } from '@/components/ui/markdown-renderer';
 import { H1 } from '@/components/ui/typography';
+import { media } from '@/lib/media';
 import Image from 'next/image';
 
 const ABOUT = `
@@ -71,10 +72,8 @@ export default function Page() {
                 <CardContent>
                   <div className="relative w-full aspect-23/9">
                     <Image
-                      src="/media/bigrams/sfb_example.png"
+                      src={media('bigrams/sfb_example.png')}
                       alt="Тепловая карта ЙЦУКЕН для корпуса дневников"
-                      fill
-                      className="object-contain"
                       priority
                       sizes="(max-width: 2048px) 100vw, 66vw"
                     />
@@ -96,7 +95,7 @@ export default function Page() {
                     <CardContent>
                       <div className="relative w-full aspect-23/9">
                         <Image
-                          src="/media/bigrams/fsb_example.png"
+                          src={media('bigrams/fsb_example.png')}
                           alt="Пример биграммы ножницы бо"
                           fill
                           className="object-contain"
@@ -114,7 +113,7 @@ export default function Page() {
                     <CardContent>
                       <div className="relative w-full aspect-23/9">
                         <Image
-                          src="/media/bigrams/fsb_example_2.png"
+                          src={media('bigrams/fsb_example_2.png')}
                           alt="Пример биграммы ножницы че"
                           fill
                           className="object-contain"
@@ -141,7 +140,7 @@ export default function Page() {
                     <CardContent>
                       <div className="relative w-full aspect-23/9">
                         <Image
-                          src="/media/bigrams/lsb_example.png"
+                          src={media('bigrams/lsb_example.png')}
                           alt="Пример бокового растяжения при наборе ум"
                           fill
                           className="object-contain"
@@ -159,7 +158,7 @@ export default function Page() {
                     <CardContent>
                       <div className="relative w-full aspect-23/9">
                         <Image
-                          src="/media/bigrams/lsb_example_2.png"
+                          src={media('bigrams/lsb_example_2.png')}
                           alt="Пример бокового растяжения при наборе иц"
                           fill
                           className="object-contain"
