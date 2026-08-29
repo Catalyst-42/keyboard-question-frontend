@@ -1,5 +1,5 @@
 # KeyboardQuestion frontend
-This is a frontend app for KeyboardQuestion project. Build on top of shadcn with Talwind CSS. Uses Typescript, and backend API to view, filter and explore and compare metrics of keyboard layouts.
+This is a frontend app for KeyboardQuestion project. Built on top of shadcn with Talwind CSS. Uses Typescript, and backend API to view, filter and explore and compare metrics of keyboard layouts.
 
 > [!NOTE]  
 > Analyzer is located in [separate repository](https://github.com/Catalyst-42/keyboard-question-analyzer)
